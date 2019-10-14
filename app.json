@@ -2,6 +2,7 @@
   "expo": {
     "name": "Epicture",
     "slug": "epicture",
+    "scheme": "epicture",
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "platforms": [

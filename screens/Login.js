@@ -16,7 +16,8 @@ class Login extends Component {
           authUrl:
           `https://api.imgur.com/oauth2/authorize?client_id=12a03496907db29&response_type=token` +
           `&redirect_uri=${encodeURIComponent(redirectUrl)}`});
-          Toast.show({ text: "Welcome " + result.params.account_username, buttonText: 'OK', textStyle: { fontSize: 12 } })
+        console.log(result);
+        Toast.show({ text: "Welcome " + result.params.account_username, buttonText: 'OK', textStyle: { fontSize: 12 } })
         this.setState({ result });
     }
 
