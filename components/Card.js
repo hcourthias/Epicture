@@ -1,6 +1,7 @@
 import React from "react";
 import {Text, Button, Thumbnail, Card, CardItem, Left, Right, Body, Icon } from 'native-base';
 import { StyleSheet, Dimensions, Image, StatusBar } from 'react-native'
+import FastImage from 'react-native-fast-image'
 
 export default class CardImage extends React.PureComponent {
 
@@ -9,6 +10,7 @@ export default class CardImage extends React.PureComponent {
     };
 
     render() {
+        console.log(this.props.item)
         return (
                 <Card transparent>
                     <CardItem style={styles.card}>
@@ -16,13 +18,13 @@ export default class CardImage extends React.PureComponent {
                             <Thumbnail source={{ uri: 'https://image.noelshack.com/fichiers/2019/41/7/1570993072-70585617-3097304210311586-7609197454411431936-n-1.jpg' }} />
                             <Body>
                                 <Text style={styles.title}>{this.props.item.title}</Text>
-                                <Text style={styles.username}>{this.props.item.id}</Text>
+                                <Text style={styles.username}>{this.props.item.account_url}</Text>
 
                             </Body>
                         </Left>
                     </CardItem>
                     <CardItem cardBody>
-                        <Image source={{ uri: 'https://images.wave.fr/images//the-curse-travis-scott-1-1000x750.jpg' }} style={{aspectRatio: 1000/750, flex: 1 }} />
+                        <Image source={{ uri: `https://i.imgur.com/${this.props.image.id}.jpg` }} style={{aspectRatio: this.props.image.width/this.props.image.height, flex: 1 }} />
                     </CardItem>
                     <CardItem style={styles.card}>
                         <Left>
