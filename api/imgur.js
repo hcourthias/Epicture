@@ -312,3 +312,15 @@ export function searchPost(query) {
         return Promise.reject(result.data);
     })
 }
+
+export function getTags() {
+    return fetch(`${BASE_URL}/3/tags`, generateClientRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
+    });
+}
