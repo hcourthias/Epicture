@@ -9,7 +9,7 @@ export default class CardImage extends React.PureComponent {
         return (
             <ImageBackground source={{ uri: 'https://i.imgur.com/oB1KOoT.png' }}
             style={{ width: width, justifyContent: 'center', alignItems: 'center', marginTop: 10}}
-            imageStyle={{ opacity: 0.6 }}>
+            imageStyle={{ opacity: 0.8 }}>
                 <Button transparent><Text style={styles.tagText}>Lego</Text></Button>
           </ImageBackground>
         )
