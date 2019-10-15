@@ -18,8 +18,7 @@ class Post extends Component {
         getUserPosts().then((data) => {
             this.items = data;
             this.setState({ isReady: true });
-            console.log(this.items[0].images);
-            console.log("DONE");
+            console.log(data)
         })
     }
 
@@ -36,10 +35,8 @@ class Post extends Component {
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item }) => {
                             try {
-                                if (!item.images)
-                                    return;
                                 return <CardImage
-                                    image={item.images[0]}
+                                    image={{id: item.id, height: item.height, width: item.width}}
                                     item={item}
                                 />
                             } catch (e) {

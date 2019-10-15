@@ -8,7 +8,6 @@ export default class CardImage extends React.PureComponent {
     state = {
         result: null,
     };
-
     render() {
         return (
                 <Card transparent>

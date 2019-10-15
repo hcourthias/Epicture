@@ -20,7 +20,6 @@ class Profile extends Component {
         getUserProfile().then((result) => {
             this.setState({userInfo: result})
             this.setState({isSignIn: true})
-            console.log(this.state.userInfo)
         })
     }
 

@@ -14,17 +14,6 @@ class Home extends Component {
 
     items = null;
 
-    getTopImage = async () => {
-        const res = await fetch('https://api.imgur.com/3/gallery/top', {
-            method: 'GET',
-            headers: new Headers({
-                Authorization: 'Client-ID 12a03496907db29',
-            }),
-        })
-        const data = await res.json();
-        return data;
-    }
-
     componentWillMount() {
         getGalleryTop().then((data) => {
             this.items = data;

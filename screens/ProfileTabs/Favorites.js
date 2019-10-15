@@ -40,7 +40,7 @@ class Favorites extends Component {
                                 if (!item.images)
                                     return;
                                 return <CardImage
-                                    image={item.images[0]}
+                                    image={item.id}
                                     item={item}
                                 />
                             } catch (e) {
