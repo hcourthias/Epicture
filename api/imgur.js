@@ -240,7 +240,7 @@ export function getUserFavorites() {
 /**
  * upvoteImage
  * @description Upvote An Image
- * @param {*} imageHash 
+ * @param {string} imageHash 
  */
 export function upvoteImage(imageHash) {
     return fetch(`${BASE_URL}/3/gallery/${imageHash}/vote/up`, generateUserRequest())
@@ -258,7 +258,7 @@ export function upvoteImage(imageHash) {
 /**
  * downvoteImage
  * @description Downvote an Image
- * @param {*} imageHash 
+ * @param {string} imageHash 
  */
 export function downvoteImage(imageHash) {
     return fetch(`${BASE_URL}/3/gallery/${imageHash}/vote/down`, generateUserRequest())
@@ -276,7 +276,7 @@ export function downvoteImage(imageHash) {
 /**
  * vetovoteImage
  * @description Veto Vote an Image
- * @param {*} imageHash 
+ * @param {string} imageHash 
  */
 export function vetovoteImage(imageHash) {
     return fetch(`${BASE_URL}/3/gallery/${imageHash}/vote/veto`, generateUserRequest())
