@@ -40,7 +40,7 @@ export function loginImgur() {
         return saveUserAuth();
     })
     .then(() => {
-        getUserFavorites().then(() => { console.log("OK") })
+        upvoteImage("p0eWJM");
     });
 }
 
@@ -147,7 +147,13 @@ export function getGalleryTop() {
     return fetch(`${BASE_URL}/3/gallery/top`, generateClientRequest())
     .then((response) => {
         return response.json();
-    });
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        else
+            return Promise.reject(result.data);
+    })
 }
 
 /**
@@ -158,19 +164,13 @@ export function getGalleryHot() {
     return fetch(`${BASE_URL}/3/gallery/hot`, generateClientRequest())
     .then((response) => {
         return response.json();
-    });
-}
-
-/**
- * upvoteImage
- * @description Endpoint to Upvote an Image
- * @param {string} idImage Identifier of the image
- */
-export function upvoteImage(idImage) {
-    return fetch(``, generateClientRequest('POST'))
-    .then((response) => {
-        return response.json();
-    });
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        else
+            return Promise.reject(result.data);
+    })
 }
 
 /**
@@ -196,7 +196,10 @@ export function getUserProfile(clientName = username) {
     })
     .then((result) => {
         result.data.username = username;
-        return Promise.resolve(result.data);
+        if (result.success)
+            return Promise.resolve(result.data);
+        else
+            return Promise.reject(result.data);
     });
 }
 
@@ -210,7 +213,10 @@ export function getUserPosts() {
         return response.json();
     })
     .then((result) => {
-        return Promise.resolve(result.data);
+        if (result.success)
+            return Promise.resolve(result.data);
+        else
+            return Promise.reject(result.data);
     });
 }
 
@@ -224,6 +230,63 @@ export function getUserFavorites() {
         return response.json();
     })
     .then((result) => {
-        return Promise.resolve(result.data);
+        if (result.success)
+            return Promise.resolve(result.data);
+        else
+            return Promise.reject(result.data);
+    });
+}
+
+/**
+ * upvoteImage
+ * @description Upvote An Image
+ * @param {*} imageHash 
+ */
+export function upvoteImage(imageHash) {
+    return fetch(`${BASE_URL}/3/gallery/${imageHash}/vote/up`, generateUserRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve();
+        else
+            return Promise.reject(result.data);
+    });
+}
+
+/**
+ * downvoteImage
+ * @description Downvote an Image
+ * @param {*} imageHash 
+ */
+export function downvoteImage(imageHash) {
+    return fetch(`${BASE_URL}/3/gallery/${imageHash}/vote/down`, generateUserRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve();
+        else
+            return Promise.reject(result.data);
+    });
+}
+
+/**
+ * vetovoteImage
+ * @description Veto Vote an Image
+ * @param {*} imageHash 
+ */
+export function vetovoteImage(imageHash) {
+    return fetch(`${BASE_URL}/3/gallery/${imageHash}/vote/veto`, generateUserRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve();
+        else
+            return Promise.reject(result.data);
     });
 }
