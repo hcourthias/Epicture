@@ -5,15 +5,18 @@ import Post from './ProfileTabs/Post'
 import Favorites from './ProfileTabs/Favorites.js'
 import Following from './ProfileTabs/Following.js'
 import Comments from './ProfileTabs/Comments.js'
-import {getUserProfile} from '../api/imgur'
+import {getUserProfile, isSignedIn} from '../api/imgur'
 class Profile extends Component {
 
     state = {
-        isSignIn: true,
+        isSignIn: false,
         userInfo: {}
     };
 
     componentWillMount() {
+        if (isSignedIn()) {
+            this.setState({isSignIn: true})
+        }
         getUserProfile().then((result) => {
             this.setState({userInfo: result})
             this.setState({isSignIn: true})
