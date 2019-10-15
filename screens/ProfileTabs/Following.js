@@ -15,42 +15,10 @@ class Following extends Component {
 
     items = null;
 
-    componentWillMount() {
-        getUserPosts().then((data) => {
-            this.items = data;
-            this.setState({ isReady: true });
-            console.log(this.items[0].images);
-            console.log("DONE");
-        })
-    }
-
     render() {
         return (
-
             <Container style={styles.background}>
-                {this.items !== null ?
-                    <FlatList style={styles.cardContent}
-                        data={this.items}
-                        initialNumToRender={5}
-                        maxToRenderPerBatch={10}
-                        windowSize={10}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={({ item }) => {
-                            try {
-                                if (!item.images)
-                                    return;
-                                return <CardImage
-                                    image={item.images[0]}
-                                    item={item}
-                                />
-                            } catch (e) {
-                                console.log(e);
-                                console.log(`Error at ${index}`);
-                            }
-                        }}
-                    />
-                    :
-                    <ActivityIndicator style={styles.appLoading} size="small" color="#FFF" />}
+                <ActivityIndicator style={styles.appLoading} size="small" color="#FFF" />
             </Container >
         )
     }

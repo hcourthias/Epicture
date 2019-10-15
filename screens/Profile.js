@@ -5,7 +5,7 @@ import Post from './ProfileTabs/Post'
 import Favorites from './ProfileTabs/Favorites.js'
 import Following from './ProfileTabs/Following.js'
 import Comments from './ProfileTabs/Comments.js'
-import {getUserProfile, isSignedIn} from '../api/imgur'
+import { getUserProfile, isSignedIn } from '../api/imgur'
 class Profile extends Component {
 
     state = {
@@ -15,12 +15,12 @@ class Profile extends Component {
 
     componentWillMount() {
         if (isSignedIn()) {
-            this.setState({isSignIn: true})
+            this.setState({ isSignIn: true })
         }
         getUserProfile().then((result) => {
-            this.setState({userInfo: result})
-            this.setState({isSignIn: true})
+            this.setState({ userInfo: result })
         })
+
     }
 
     render() {
@@ -52,18 +52,18 @@ class Profile extends Component {
                     </Header>
                 </ImageBackground>
                 <Tabs tabStyle>
-                    <Tab activeTabStyle={{backgroundColor: '#11181F'}}
-                    tabStyle={{backgroundColor: '#11181F'}}
-                    heading="Posts"><Post/></Tab>
-                    <Tab activeTabStyle={{backgroundColor: '#11181F'}}
-                    tabStyle={{backgroundColor: '#11181F'}}
-                    heading="Favorites"><Favorites/></Tab>
-                    <Tab activeTabStyle={{backgroundColor: '#11181F'}}
-                    tabStyle={{backgroundColor: '#11181F'}}
-                    heading="Following"><Following/></Tab>
-                    <Tab activeTabStyle={{backgroundColor: '#11181F'}}
-                    tabStyle={{backgroundColor: '#11181F'}}
-                    heading="Comments"><Comments/></Tab>
+                    <Tab activeTabStyle={{ backgroundColor: '#11181F' }}
+                        tabStyle={{ backgroundColor: '#11181F' }}
+                        heading="Posts"><Post /></Tab>
+                    <Tab activeTabStyle={{ backgroundColor: '#11181F' }}
+                        tabStyle={{ backgroundColor: '#11181F' }}
+                        heading="Favorites"><Favorites /></Tab>
+                    <Tab activeTabStyle={{ backgroundColor: '#11181F' }}
+                        tabStyle={{ backgroundColor: '#11181F' }}
+                        heading="Following"><Following /></Tab>
+                    <Tab activeTabStyle={{ backgroundColor: '#11181F' }}
+                        tabStyle={{ backgroundColor: '#11181F' }}
+                        heading="Comments"><Comments /></Tab>
                 </Tabs>
 
             </Container >

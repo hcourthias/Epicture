@@ -37,7 +37,6 @@ class Home extends Component {
                             try {
                                 if (!item.images)
                                     return;
-                                //console.log(item);
                                 return <CardImage
                                     image={item.images[0]}
                                     item={item}
