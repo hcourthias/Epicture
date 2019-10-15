@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { Container, Text, Button, Thumbnail, Header, Item, Icon, Input } from 'native-base';
 import { StyleSheet, Dimensions, Image, StatusBar, FlatList, ImageBackground } from 'react-native'
 import Post from './ProfileTabs/Post'
+import FilterCard from '../components/FilterCard'
 import Favorites from './ProfileTabs/Favorites.js'
 import Following from './ProfileTabs/Following.js'
 import Comments from './ProfileTabs/Comments.js'
-import {getUserProfile} from '../api/imgur'
+import { getUserProfile } from '../api/imgur'
 class Search extends Component {
 
     state = {
@@ -17,16 +18,19 @@ class Search extends Component {
     render() {
         return (
             <Container style={styles.background}>
-          <Header searchBar autoCorrect={false} style={styles.header}>
-            <Item style={styles.header}>
-              <Icon style = {styles.iconSearch} name="search" />
-              <Input style = {styles.searchInput}
-                placeholder="Search"
-                placeholderTextColor="#DCDCDC" 
-
-              />
-            </Item>
-          </Header>
+                <Header searchBar autoCorrect={false} style={styles.header}>
+                    <Item style={styles.header}>
+                        <Icon style={styles.iconSearch} name="search" />
+                        <Input style={styles.searchInput}
+                            placeholder="Search"
+                            placeholderTextColor="#DCDCDC"
+                        />
+                    </Item>
+                </Header>
+                <FilterCard/>
+                <FilterCard/>
+                <FilterCard/>
+                <FilterCard/>
             </Container >
         )
     }

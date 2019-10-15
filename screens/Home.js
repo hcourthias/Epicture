@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
     },
     cardContent: {
         marginTop: 30,
-        marginHorizontal: 5
     },
     appLoading: {
         flex: 1,
