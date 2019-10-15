@@ -1,24 +1,10 @@
 import React, { Component } from "react";
 import { Container, Text, Button, Thumbnail } from 'native-base';
 import { StyleSheet, Dimensions, AsyncStorage } from 'react-native'
-import { AuthSession } from 'expo'
+import { loginImgur } from '../api/imgur'
 
 
 class Login extends Component {
-
-
-    handleLogin = async () => {
-        let redirectUrl = AuthSession.getRedirectUrl();
-        console.log(redirectUrl);
-        let result = await AuthSession.startAsync({
-            authUrl:
-                `https://api.imgur.com/oauth2/authorize?client_id=12a03496907db29&response_type=token` +
-                `&redirect_uri=${encodeURIComponent(redirectUrl)}`
-        });
-        console.log(result);
-        Toast.show({ text: "Welcome " + result.params.account_username, buttonText: 'OK', textStyle: { fontSize: 12 } })
-    }
-
     render() {
         return (
 
@@ -27,7 +13,7 @@ class Login extends Component {
                     <Text style={styles.logo}>epicture</Text>
                     <Container style={styles.bottom}>
                         <Button style={styles.loginButton}
-                            onPress={() => this.handleLogin()}>
+                            onPress={() => loginImgur().then(() => {this.props.navigation.navigate('Home')})}>
                             <Text style={styles.loginButtonText}>LOGIN</Text>
                         </Button>
                         <Button transparent style={{ marginTop: height * 0.01 }}

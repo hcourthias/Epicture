@@ -171,6 +171,7 @@ export function getUserProfile(clientName = username) {
         return response.json();
     })
     .then((result) => {
+        result.data.username = username;
         return Promise.resolve(result.data);
     });
 }

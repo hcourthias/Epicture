@@ -5,14 +5,20 @@ import Post from './ProfileTabs/Post'
 import Favorites from './ProfileTabs/Favorites.js'
 import Following from './ProfileTabs/Following.js'
 import Comments from './ProfileTabs/Comments.js'
-
+import {getUserProfile} from '../api/imgur'
 class Profile extends Component {
 
     state = {
         isSignIn: true,
+        userInfo: {}
     };
 
-    componentDidMount() {
+    componentWillMount() {
+        getUserProfile().then((result) => {
+            this.setState({userInfo: result})
+            this.setState({isSignIn: true})
+            console.log(this.state.userInfo)
+        })
     }
 
     render() {
@@ -29,15 +35,15 @@ class Profile extends Component {
         return (
             <Container style={styles.background}>
                 <ImageBackground
-                    source={{ uri: 'https://i.pinimg.com/originals/73/38/6e/73386e0513d4c02a4fbb814cadfba655.jpg' }}
+                    source={{ uri: this.state.userInfo.cover }}
                     style={{ width: width, height: height * 0.2, justifyContent: 'center' }}
-                    imageStyle={{ opacity: 0.4 }}>
+                    imageStyle={{ opacity: 0.8 }}>
                     <Header transparent>
                         <StatusBar barStyle="light-content" />
                         <Body style={{ justifyContent: 'center', alignItems: 'center' }}>
-                            <Thumbnail source={{ uri: 'https://image.noelshack.com/fichiers/2019/41/7/1570993072-70585617-3097304210311586-7609197454411431936-n-1.jpg' }} />
-                            <Text style={styles.username}>hugocourthias</Text>
-                            <Text style={styles.info}>Neutral • 0 Points • 1 Trophy</Text>
+                            <Thumbnail source={{ uri: this.state.userInfo.avatar }} />
+                            <Text style={styles.username}>{this.state.userInfo.username}</Text>
+                            <Text style={styles.info}>{this.state.userInfo.reputation_name} • {this.state.userInfo.reputation} Points</Text>
                             <Text style={styles.date}>Created Oct 13, 2019</Text>
 
                         </Body>

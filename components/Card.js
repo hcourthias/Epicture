@@ -10,7 +10,6 @@ export default class CardImage extends React.PureComponent {
     };
 
     render() {
-        console.log(this.props.item)
         return (
                 <Card transparent>
                     <CardItem style={styles.card}>

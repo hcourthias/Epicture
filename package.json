@@ -10,10 +10,7 @@
   },
   "dependencies": {
     "expo": "^35.0.0",
-<<<<<<< HEAD
     "expo-font": "^7.0.0",
-=======
->>>>>>> Added Basic Api
     "native-base": "^2.13.8",
     "react": "16.8.3",
     "react-dom": "16.8.3",
