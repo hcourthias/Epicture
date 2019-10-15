@@ -40,7 +40,7 @@ export function loginImgur() {
         return saveUserAuth();
     })
     .then(() => {
-        getUserPosts().then(() => { console.log("OK") })
+        getUserFavorites().then(() => { console.log("OK") })
     });
 }
 
@@ -174,6 +174,16 @@ export function upvoteImage(idImage) {
 }
 
 /**
+ * isSignedIn
+ * @description Checks if a user signed in
+ */
+export function isSignedIn() {
+    if (user_token && username)
+        return true;
+    return false;
+}
+
+/**
  * getUserProfile
  * @description Get User Profile
  * @param {string} clientName Defaults to current usernames
@@ -196,6 +206,20 @@ export function getUserProfile(clientName = username) {
  */
 export function getUserPosts() {
     return fetch(`${BASE_URL}/3/account/me/images`, generateUserRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        return Promise.resolve(result.data);
+    });
+}
+
+/**
+ * getUserFavorites
+ * @description Get User's Favoite
+ */
+export function getUserFavorites() {
+    return fetch(`${BASE_URL}/3/account/${username}/favorites`, generateUserRequest())
     .then((response) => {
         return response.json();
     })
