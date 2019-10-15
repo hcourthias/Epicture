@@ -7,6 +7,7 @@ import {Icon, Header, Text} from 'native-base'
 import Login from '../screens/Login'
 import Home from '../screens/Home'
 import Profile from '../screens/Profile'
+import Search from '../screens/Search'
 
 
 const HomeTabs = createBottomTabNavigator({
@@ -21,7 +22,7 @@ const HomeTabs = createBottomTabNavigator({
         },
         },
         Search: {
-        screen: Login,
+        screen: Search,
         navigationOptions: {
             tabBarLabel: 'Search',
             tabBarIcon: ({ focused, horizontal, tintColor }) => (
