@@ -5,11 +5,15 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "test:unit": "jest -c ./jest.ut.js"
   },
   "dependencies": {
     "expo": "^35.0.0",
+<<<<<<< HEAD
     "expo-font": "^7.0.0",
+=======
+>>>>>>> Added Basic Api
     "native-base": "^2.13.8",
     "react": "16.8.3",
     "react-dom": "16.8.3",
@@ -24,7 +28,10 @@
     "react-navigation-tabs": "^2.5.6"
   },
   "devDependencies": {
-    "babel-preset-expo": "^7.0.0"
+    "babel-preset-expo": "^7.0.0",
+    "jest": "^24.9.0",
+    "jest-expo": "^35.0.0",
+    "node-fetch-polyfill": "^2.0.6"
   },
   "private": true
 }
