@@ -40,7 +40,7 @@ export function loginImgur() {
         return saveUserAuth();
     })
     .then(() => {
-        getUserProfile();
+        getUserFavorites().then(() => { console.log("OK") })
     });
 }
 
@@ -126,6 +126,20 @@ function generateClientRequest(method = 'GET') {
 }
 
 /**
+ * generateUserRequest
+ * @description Generate Request Init Object for Imgur Api Fetch
+ * @param {string} method HTTP Method
+ */
+function generateUserRequest(method = 'GET') {
+    return {
+        method,
+        headers: {
+            Authorization: `Bearer ${user_token}`
+        }
+    };
+}
+
+/**
  * getGalleryTop
  * @description Get Gallery Top
  */
@@ -160,6 +174,16 @@ export function upvoteImage(idImage) {
 }
 
 /**
+ * isSignedIn
+ * @description Checks if a user signed in
+ */
+export function isSignedIn() {
+    if (user_token && username)
+        return true;
+    return false;
+}
+
+/**
  * getUserProfile
  * @description Get User Profile
  * @param {string} clientName Defaults to current usernames
@@ -172,6 +196,34 @@ export function getUserProfile(clientName = username) {
     })
     .then((result) => {
         result.data.username = username;
+        return Promise.resolve(result.data);
+    });
+}
+
+/**
+ * getUserPosts
+ * @description Get User's Posts
+ */
+export function getUserPosts() {
+    return fetch(`${BASE_URL}/3/account/me/images`, generateUserRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        return Promise.resolve(result.data);
+    });
+}
+
+/**
+ * getUserFavorites
+ * @description Get User's Favoite
+ */
+export function getUserFavorites() {
+    return fetch(`${BASE_URL}/3/account/${username}/favorites`, generateUserRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
         return Promise.resolve(result.data);
     });
 }
