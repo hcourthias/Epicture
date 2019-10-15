@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { Container, Text } from 'native-base';
 import { StyleSheet, Dimensions, FlatList, ActivityIndicator } from 'react-native'
-import CardImage from '../components/Card'
+import CardImage from '../../components/Card'
 
 
-class Home extends Component {
+class Post extends Component {
 
     state = {
-        // items: [ {"images": [{id:0}] } ],
         items: null,
         isReady: false,
         isFetching: false,
@@ -28,28 +27,10 @@ class Home extends Component {
 
     componentDidMount() {
         this.getTopImage().then((data) => {
-            // console.log(data.data)
-            // image= []
-            // // console.log(data.data[0]);
-            // console.log("----Start")
-            // data.data.forEach(element => {
-            //     image.push(element.images[0]);
-            //     console.log(element);
-            // });
-            // console.log("----END")
-            // try {
-            // for (const post in data.data) {
-            //     console.log("POST");
-
-            //     console.log(data.data[post]);
-            // }} catch(e) {
-            //     console.log(e);
-            // }
             this.items = data.data;
             this.setState({ isReady: true });
             console.log(this.items[0].images);
             console.log("DONE");
-            // console.log(data.data[5].images[0].link)
         })
 
     }
@@ -69,7 +50,6 @@ class Home extends Component {
                             try {
                                 if (!item.images)
                                     return;
-                                //console.log(item);
                                 return <CardImage
                                     image={item.images[0]}
                                     item={item}
@@ -96,12 +76,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#11181F',
     },
     cardContent: {
-        marginTop: 30,
+        marginTop: 0,
         marginHorizontal: 5
     },
     appLoading: {
         flex: 1,
         justifyContent: 'center'
-      }
+      },
 });
-export default Home
+export default Post

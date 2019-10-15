@@ -1,17 +1,19 @@
 import React from 'react'
-import { createSwitchNavigator, createAppContainer } from 'react-navigation'
+import {createAppContainer ,createSwitchNavigator} from 'react-navigation'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
-import {Icon} from 'native-base'
+import {Icon, Header, Text} from 'native-base'
+
 
 import Login from '../screens/Login'
 import Home from '../screens/Home'
-
+import Profile from '../screens/Profile'
 
 
 const HomeTabs = createBottomTabNavigator({
         Feed: {
         screen: Home,
         navigationOptions: {
+            title: "tutu",
             tabBarLabel: 'Home',
             tabBarIcon: ({ focused, horizontal, tintColor }) => (
                 <Icon name="home" size={30} style={{color:tintColor}} />
@@ -27,9 +29,10 @@ const HomeTabs = createBottomTabNavigator({
               )
         },
         },
-        Discover: {
-        screen: Login,
+        Profile: {
+        screen: Profile,
         navigationOptions: {
+            title: "33",
             tabBarLabel: 'Profile',
             tabBarIcon: ({ focused, horizontal, tintColor }) => (
                 <Icon name="person" size={30} style={{color:tintColor}}  />
@@ -59,7 +62,7 @@ const SwitchNavigator = createSwitchNavigator(
         },
     },
     {
-        initialRouteName: 'Login'
+        initialRouteName: 'Login',
     }
 )
 

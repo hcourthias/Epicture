@@ -1,24 +1,22 @@
 import React, { Component } from "react";
-import { Container, Text, Button, Thumbnail, Input, Item, Toast } from 'native-base';
-import { StyleSheet, Dimensions } from 'react-native'
-import {AuthSession} from 'expo'
+import { Container, Text, Button, Thumbnail } from 'native-base';
+import { StyleSheet, Dimensions, AsyncStorage } from 'react-native'
+import { AuthSession } from 'expo'
+
 
 class Login extends Component {
 
-    state = {
-        result: null,
-      };
 
-    handleLogin = async() => {
+    handleLogin = async () => {
         let redirectUrl = AuthSession.getRedirectUrl();
         console.log(redirectUrl);
         let result = await AuthSession.startAsync({
-          authUrl:
-          `https://api.imgur.com/oauth2/authorize?client_id=12a03496907db29&response_type=token` +
-          `&redirect_uri=${encodeURIComponent(redirectUrl)}`});
+            authUrl:
+                `https://api.imgur.com/oauth2/authorize?client_id=12a03496907db29&response_type=token` +
+                `&redirect_uri=${encodeURIComponent(redirectUrl)}`
+        });
         console.log(result);
         Toast.show({ text: "Welcome " + result.params.account_username, buttonText: 'OK', textStyle: { fontSize: 12 } })
-        this.setState({ result });
     }
 
     render() {
@@ -32,8 +30,8 @@ class Login extends Component {
                             onPress={() => this.handleLogin()}>
                             <Text style={styles.loginButtonText}>LOGIN</Text>
                         </Button>
-                        <Button transparent style={{marginTop: height * 0.01}}
-                        onPress={() => this.props.navigation.navigate('Home')}>
+                        <Button transparent style={{ marginTop: height * 0.01 }}
+                            onPress={() => this.props.navigation.navigate('Home')}>
                             <Text style={styles.guestText}>CONTINUE AS GUEST</Text>
                         </Button>
                     </Container>

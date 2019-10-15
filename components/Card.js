@@ -1,7 +1,7 @@
 import React from "react";
 import {Text, Button, Thumbnail, Card, CardItem, Left, Right, Body, Icon } from 'native-base';
 import { StyleSheet, Dimensions, Image, StatusBar } from 'react-native'
-import FastImage from 'react-native-fast-image'
+
 
 export default class CardImage extends React.PureComponent {
 
@@ -19,7 +19,6 @@ export default class CardImage extends React.PureComponent {
                             <Body>
                                 <Text style={styles.title}>{this.props.item.title}</Text>
                                 <Text style={styles.username}>{this.props.item.account_url}</Text>
-
                             </Body>
                         </Left>
                     </CardItem>
@@ -30,11 +29,15 @@ export default class CardImage extends React.PureComponent {
                         <Left>
                             <Button transparent>
                                 <Icon style={styles.white} name="arrow-up" />
-                                <Text style={styles.white}>{this.props.item.favorite_count}</Text>
+                                <Text style={styles.white}>{this.props.item.ups}</Text>
                             </Button>
                             <Button transparent>
                                 <Icon style={styles.white} name="arrow-down" />
                                 <Text style={styles.white}>{this.props.item.downs}</Text>
+                            </Button>
+                            <Button transparent>
+                                <Icon style={styles.white} name="heart" />
+                                <Text style={styles.white}>{this.props.item.favorite_count}</Text>
                             </Button>
                         </Left>
                         <Right>
