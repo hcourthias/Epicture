@@ -2,6 +2,7 @@
   "expo": {
     "name": "Epicture",
     "slug": "epicture",
+    "scheme": "epicture",
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "platforms": [
@@ -15,7 +16,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#17202A"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -25,6 +26,9 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.warzapp.epicture"
     }
   }
 }
