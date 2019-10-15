@@ -104,7 +104,6 @@ export function loginInit() {
             resolve();
         })
         .catch((error) => {
-            console.log(error);
             reject(error);
         })
     });
@@ -116,7 +115,6 @@ export function loginInit() {
  * @param {string} method 
  */
 function generateClientRequest(method = 'GET') {
-    console.log(user_token);
     return {
         method,
         headers: {
@@ -168,8 +166,7 @@ export function getGalleryHot() {
     .then((result) => {
         if (result.success)
             return Promise.resolve(result.data);
-        else
-            return Promise.reject(result.data);
+        return Promise.reject(result.data);
     })
 }
 
@@ -198,8 +195,7 @@ export function getUserProfile(clientName = username) {
         result.data.username = username;
         if (result.success)
             return Promise.resolve(result.data);
-        else
-            return Promise.reject(result.data);
+        return Promise.reject(result.data);
     });
 }
 
@@ -215,8 +211,7 @@ export function getUserPosts() {
     .then((result) => {
         if (result.success)
             return Promise.resolve(result.data);
-        else
-            return Promise.reject(result.data);
+        return Promise.reject(result.data);
     });
 }
 
@@ -232,8 +227,7 @@ export function getUserFavorites() {
     .then((result) => {
         if (result.success)
             return Promise.resolve(result.data);
-        else
-            return Promise.reject(result.data);
+        return Promise.reject(result.data);
     });
 }
 
@@ -250,8 +244,7 @@ export function upvoteImage(imageHash) {
     .then((result) => {
         if (result.success)
             return Promise.resolve();
-        else
-            return Promise.reject(result.data);
+        return Promise.reject(result.data);
     });
 }
 
@@ -268,8 +261,7 @@ export function downvoteImage(imageHash) {
     .then((result) => {
         if (result.success)
             return Promise.resolve();
-        else
-            return Promise.reject(result.data);
+        return Promise.reject(result.data);
     });
 }
 
@@ -286,7 +278,40 @@ export function vetovoteImage(imageHash) {
     .then((result) => {
         if (result.success)
             return Promise.resolve();
-        else
-            return Promise.reject(result.data);
+        return Promise.reject(result.data);
     });
+}
+
+/**
+ * getPostInfo
+ * @description get Post Info
+ * @param {string} imageHash 
+ */
+export function getPostInfo(imageHash) {
+    return fetch(`${BASE_URL}/3/image/${imageHash}`, generateClientRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
+    })
+}
+
+/**
+ * getPostInfo
+ * @description get Post Info
+ * @param {string} imageHash 
+ */
+export function getPostInfo(imageHash) {
+    return fetch(`${BASE_URL}/3/image/${imageHash}`, generateClientRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
+    })
 }
