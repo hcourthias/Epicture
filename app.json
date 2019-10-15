@@ -28,7 +28,13 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.warzapp.epicture"
+      "package": "com.warzapp.epicture",
+      "permissions": [
+        "CAMERA",
+        "READ_INTERNAL_STORAGE",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     }
   }
 }

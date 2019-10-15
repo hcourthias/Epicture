@@ -1,11 +1,13 @@
 import React, { Component } from "react";
-import { Container, Text, Button, Thumbnail, Header, Body, Tab, Tabs } from 'native-base';
-import { StyleSheet, Dimensions, Image, StatusBar, FlatList, ImageBackground } from 'react-native'
+import { Container, Text, Button, Thumbnail, Header, Body, Tab, Tabs, Icon } from 'native-base';
+import { StyleSheet, Dimensions, TouchableOpacity, StatusBar, FlatList, ImageBackground } from 'react-native'
 import Post from './ProfileTabs/Post'
 import Favorites from './ProfileTabs/Favorites.js'
 import Following from './ProfileTabs/Following.js'
 import Comments from './ProfileTabs/Comments.js'
 import { getUserProfile, isSignedIn } from '../api/imgur'
+import * as ImagePicker from 'expo-image-picker';
+
 class Profile extends Component {
 
     state = {
@@ -65,7 +67,6 @@ class Profile extends Component {
                         tabStyle={{ backgroundColor: '#11181F' }}
                         heading="Comments"><Comments /></Tab>
                 </Tabs>
-
             </Container >
         )
     }
