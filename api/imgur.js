@@ -38,9 +38,6 @@ export function loginImgur() {
         refresh_token = result.params.refresh_token;
         username = result.params.account_username;
         return saveUserAuth();
-    })
-    .then(() => {
-        upvoteImage("p0eWJM");
     });
 }
 
@@ -300,12 +297,12 @@ export function getPostInfo(imageHash) {
 }
 
 /**
- * getPostInfo
- * @description get Post Info
- * @param {string} imageHash 
+ * searchPost
+ * @description Search For Specific Post
+ * @param {string} query 
  */
-export function getPostInfo(imageHash) {
-    return fetch(`${BASE_URL}/3/image/${imageHash}`, generateClientRequest())
+export function searchPost(query) {
+    return fetch(`${BASE_URL}/3/gallery/search?q=${query}`, generateUserRequest())
     .then((response) => {
         return response.json();
     })
