@@ -234,7 +234,7 @@ export function getUserFavorites() {
  * @param {string} imageHash 
  */
 export function upvoteImage(imageHash) {
-    return fetch(`${BASE_URL}/3/gallery/${imageHash}/vote/up`, generateUserRequest())
+    return fetch(`${BASE_URL}/3/gallery/${imageHash}/vote/up`, generateUserRequest('POST'))
     .then((response) => {
         return response.json();
     })
@@ -251,7 +251,7 @@ export function upvoteImage(imageHash) {
  * @param {string} imageHash 
  */
 export function downvoteImage(imageHash) {
-    return fetch(`${BASE_URL}/3/gallery/${imageHash}/vote/down`, generateUserRequest())
+    return fetch(`${BASE_URL}/3/gallery/${imageHash}/vote/down`, generateUserRequest('POST'))
     .then((response) => {
         return response.json();
     })
@@ -268,7 +268,24 @@ export function downvoteImage(imageHash) {
  * @param {string} imageHash 
  */
 export function vetovoteImage(imageHash) {
-    return fetch(`${BASE_URL}/3/gallery/${imageHash}/vote/veto`, generateUserRequest())
+    return fetch(`${BASE_URL}/3/gallery/${imageHash}/vote/veto`, generateUserRequest('POST'))
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve();
+        return Promise.reject(result.data);
+    });
+}
+
+/**
+ * favImage
+ * @description Fav an Image
+ * @param {string} imageHash 
+ */
+export function favImage(imageHash) {
+    return fetch(`${BASE_URL}/3/image/${imageHash}/favorite`, generateUserRequest('POST'))
     .then((response) => {
         return response.json();
     })
@@ -325,8 +342,8 @@ export function getTags() {
     });
 }
 
-export function searchByTag() {
-    return fetch(`${BASE_URL}/3/gallery/t//tags`, generateClientRequest())
+export function searchByTag(tag) {
+    return fetch(`${BASE_URL}/3/gallery/t/${tag}`, generateClientRequest())
     .then((response) => {
         return response.json();
     })
@@ -337,4 +354,22 @@ export function searchByTag() {
     });
 }
 
+/**
+ * downvoteImage
+ * @description Downvote an Image
+ * @param {string} imageHash 
+ */
+export function uploadImage(formData) {
+    const tmp = generateUserRequest('POST')
+    tmp.body = formData
+    return fetch(`${BASE_URL}/3/upload`, tmp)
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
+    });
+}
 

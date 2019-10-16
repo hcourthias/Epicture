@@ -1,10 +1,9 @@
 import React from "react";
 import { Text, Button, Thumbnail, Card, CardItem, Left, Right, Body, Icon } from 'native-base';
-import { StyleSheet, Dimensions, Image, View, TouchableHighlight } from 'react-native'
-import { downvoteImage, upvoteImage, vetovoteImage, favImage } from '../api/imgur'
-import { Video } from 'expo-av';
+import { StyleSheet, Dimensions, Image, StatusBar, TouchableHighlight } from 'react-native'
+import {downvoteImage, upvoteImage, vetovoteImage, favImage} from '../api/imgur'
 
-export default class CardImage extends React.PureComponent {
+export default class CardVideo extends React.PureComponent {
 
     state = {
         result: null,
@@ -12,10 +11,7 @@ export default class CardImage extends React.PureComponent {
         downVoted: false,
         fav: false,
         ups: this.props.item.ups,
-        downs: this.props.item.downs,
-        shouldPlay: false,
-        isLooping: false,
-        showIcon: true,
+        downs: this.props.item.downs
     };
 
     isUpVoted() {
@@ -26,14 +22,16 @@ export default class CardImage extends React.PureComponent {
         this.setState({ upVoted: tmp });
         if (tmp) {
             upvoteImage(this.props.item.id).then((data) => {
+                console.log(data)
             })
             this.setState({ ups: tmp2 + 1 });
             if (this.state.downVoted) {
                 this.setState({ downs: tmp3 - 1, downVoted: false });
             }
-        } else {
+        }else {
             this.setState({ ups: tmp2 - 1 });
             vetovoteImage(this.props.item.id).then((data) => {
+                console.log(data)
             })
         }
     }
@@ -45,6 +43,7 @@ export default class CardImage extends React.PureComponent {
         this.setState({ downVoted: tmp });
         if (tmp) {
             downvoteImage(this.props.item.id).then((data) => {
+                console.log(data)
             })
             this.setState({ downs: tmp2 + 1 });
             if (this.state.upVoted) {
@@ -52,26 +51,19 @@ export default class CardImage extends React.PureComponent {
             }
         } else
             this.setState({ downs: tmp2 - 1 });
-        vetovoteImage(this.props.item.id).then((data) => {
-        })
+            vetovoteImage(this.props.item.id).then((data) => {
+                console.log(data)
+            })
     }
 
     isFav() {
         tmp = !this.state.fav
 
-        this.setState({ fav: tmp });
+        this.setState({ fav: tmp }); 
         favImage(this.props.image.id).then((data) => {
+            console.log(data)
         })
     }
-
-    handlePlayAndPause = () => {
-        this.setState((prevState) => ({
-            shouldPlay: !prevState.shouldPlay,
-            isLooping: !prevState.isLooping,
-            showIcon: !prevState.showIcon
-        }));
-    }
-
     render() {
         return (
             <Card transparent>
@@ -84,7 +76,7 @@ export default class CardImage extends React.PureComponent {
                         </Body>
                     </Left>
                 </CardItem>
-                <CardItem cardBody style={{ aspectRatio: this.props.image.width / this.props.image.height, flex: 1 }}>
+                <CardItem cardBody>
                     <Image source={{ uri: `https://i.imgur.com/${this.props.image.id}.gif` }} style={{ aspectRatio: this.props.image.width / this.props.image.height, flex: 1 }} />
                 </CardItem>
                 <CardItem style={styles.card}>
@@ -128,18 +120,5 @@ const styles = StyleSheet.create({
     username: {
         color: 'white',
         fontSize: 14
-    },
-    playView: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        top: 0,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    playIcon: {
-        color: 'white',
-        fontSize: 50
-    },
+    }
 });

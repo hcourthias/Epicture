@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Container, Text, Button, Header, Left, Right, Icon, Input, Item, Content } from 'native-base';
 import { StyleSheet, Dimensions, AsyncStorage, ActivityIndicator, Image, StatusBar, Alert, BackHandler } from 'react-native'
-import { loginImgur } from '../api/imgur'
+import { loginImgur, uploadImage } from '../api/imgur'
 
 class PostPicture extends Component {
 
@@ -40,13 +40,24 @@ class PostPicture extends Component {
         return true
     }
 
-    checkInputTitle = () => {
-        tmp = this.state.title
-        if (tmp.length == 0 || tmp.trim().length == 0)
+    checkInputTitle = (title) => {
+        this.setState({ title })
+        if (title.length == 0 || title.trim().length == 0)
             this.setState({ buttonDisabled: true })
         else {
             this.setState({ buttonDisabled: false })
         }
+    }
+
+
+    uploadImage = () => {
+        let formData = new FormData();
+        formData.append("image", this.state.image.base64); 
+        formData.append("type", "base64");
+        formData.append("title", this.state.title)
+        formData.append("description", this.state.desc)
+        uploadImage(formData).then((data) => {
+        })
     }
     render() {
         return (
@@ -60,7 +71,7 @@ class PostPicture extends Component {
                     </Left>
                     <Right>
                         <Button transparent disabled={this.state.buttonDisabled}
-                            onPress={() => this.handleCancelation()}>
+                            onPress={() => this.uploadImage()}>
                             <Text style={this.state.buttonDisabled ? styles.buttonTextDisabled : styles.buttonText}>POST</Text>
                         </Button>
                     </Right>
@@ -71,7 +82,7 @@ class PostPicture extends Component {
                             value={this.state.title}
                             placeholderTextColor='grey'
                             style={styles.titleText}
-                            onChangeText={title => this.setState({ title })}
+                            onChangeText={title => this.checkInputTitle(title)}
                             returnKeyType='search'
                             onSubmitEditing={this.checkInputTitle}
                             clearButtonMode="while-editing" />

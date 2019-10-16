@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container, Text, Button, Thumbnail, Header, Item, Icon, Input } from 'native-base';
-import { StyleSheet, Dimensions, Image, StatusBar, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native'
+import { StyleSheet, Dimensions, Image, StatusBar, FlatList, ActivityIndicator, TouchableOpacity, } from 'react-native'
 import Post from './ProfileTabs/Post'
 import FilterCard from '../components/FilterCard'
 import CardImage from '../components/Card'
@@ -16,12 +16,22 @@ class Search extends Component {
         hintText: 'Search'
     }
 
+    backHandler = null
+
+
     componentWillMount() {
+        const { navigation } = this.props;
         getTags().then((data) => {
             this.setState({ tags: data.tags })
             console.log(this.state.tags[50])
         })
     }
+
+    componentWillUnmount() {
+        this.setState({ image: navigation.getParam('image', {}) })
+        this.backHandler.remove()
+    }
+
 
     handleSearch = () => {
         console.log(this.state.searchText)
@@ -39,7 +49,7 @@ class Search extends Component {
     }
 
     onPressButton = (item) => {
-        this.setState({searchText: 't/'+ item.name})
+        console.log(item.name)
         this.setState({isFetching: true})
         searchByTag(item.name).then((data) => {
             this.setState({items: data.items})
@@ -47,7 +57,8 @@ class Search extends Component {
             this.setState({isFetching: false})
 
         })
-        console.log(item.name)
+        this.setState({searchText: 't/'+ item.name})
+
     }
 
     render() {

@@ -23,6 +23,7 @@ class Picture extends Component {
         await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
         const result = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
+            base64: true,
         });
         if (!result.cancelled) {
             this.setState({ pictureUri: result.uri })
@@ -36,6 +37,7 @@ class Picture extends Component {
         await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
         const result = await ImagePicker.launchCameraAsync({
             allowsEditing: true,
+            base64: true,
         });
         if (!result.cancelled) {
             this.setState({ pictureUri: result.uri })
