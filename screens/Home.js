@@ -10,13 +10,13 @@ class Home extends Component {
     state = {
         isReady: false,
         isFetching: false,
+        items: null,
     };
 
-    items = null;
 
     componentWillMount() {
         getGalleryTop().then((data) => {
-            this.items = data;
+            this.state.items = data;
             this.setState({ isReady: true });
         })
 
@@ -26,12 +26,12 @@ class Home extends Component {
         return (
 
             <Container style={styles.background}>
-                {this.items !== null ?
+                {this.state.items !== null ?
                     <FlatList style={styles.cardContent}
-                        data={this.items}
+                        data={this.state.items}
                         initialNumToRender={5}
-                        maxToRenderPerBatch={10}
-                        windowSize={10}
+                        maxToRenderPerBatch={5}
+                        windowSize={15}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item }) => {
                             try {

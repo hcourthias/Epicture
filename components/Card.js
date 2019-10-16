@@ -21,7 +21,7 @@ export default class CardImage extends React.PureComponent {
                         </Left>
                     </CardItem>
                     <CardItem cardBody>
-                        <Image source={{ uri: `https://i.imgur.com/${this.props.image.id}.jpg` }} style={{aspectRatio: this.props.image.width/this.props.image.height, flex: 1 }} />
+                        <Image source={{ uri: `https://i.imgur.com/${this.props.image.id}.gif` }} style={{aspectRatio: this.props.image.width/this.props.image.height, flex: 1 }} />
                     </CardItem>
                     <CardItem style={styles.card}>
                         <Left>

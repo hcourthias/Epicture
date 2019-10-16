@@ -38,9 +38,6 @@ export function loginImgur() {
         refresh_token = result.params.refresh_token;
         username = result.params.account_username;
         return saveUserAuth();
-    })
-    .then(() => {
-        upvoteImage("p0eWJM");
     });
 }
 
@@ -104,7 +101,6 @@ export function loginInit() {
             resolve();
         })
         .catch((error) => {
-            console.log(error);
             reject(error);
         })
     });
@@ -116,7 +112,6 @@ export function loginInit() {
  * @param {string} method 
  */
 function generateClientRequest(method = 'GET') {
-    console.log(user_token);
     return {
         method,
         headers: {
@@ -168,8 +163,7 @@ export function getGalleryHot() {
     .then((result) => {
         if (result.success)
             return Promise.resolve(result.data);
-        else
-            return Promise.reject(result.data);
+        return Promise.reject(result.data);
     })
 }
 
@@ -198,8 +192,7 @@ export function getUserProfile(clientName = username) {
         result.data.username = username;
         if (result.success)
             return Promise.resolve(result.data);
-        else
-            return Promise.reject(result.data);
+        return Promise.reject(result.data);
     });
 }
 
@@ -215,8 +208,7 @@ export function getUserPosts() {
     .then((result) => {
         if (result.success)
             return Promise.resolve(result.data);
-        else
-            return Promise.reject(result.data);
+        return Promise.reject(result.data);
     });
 }
 
@@ -232,15 +224,14 @@ export function getUserFavorites() {
     .then((result) => {
         if (result.success)
             return Promise.resolve(result.data);
-        else
-            return Promise.reject(result.data);
+        return Promise.reject(result.data);
     });
 }
 
 /**
  * upvoteImage
  * @description Upvote An Image
- * @param {*} imageHash 
+ * @param {string} imageHash 
  */
 export function upvoteImage(imageHash) {
     return fetch(`${BASE_URL}/3/gallery/${imageHash}/vote/up`, generateUserRequest())
@@ -250,15 +241,14 @@ export function upvoteImage(imageHash) {
     .then((result) => {
         if (result.success)
             return Promise.resolve();
-        else
-            return Promise.reject(result.data);
+        return Promise.reject(result.data);
     });
 }
 
 /**
  * downvoteImage
  * @description Downvote an Image
- * @param {*} imageHash 
+ * @param {string} imageHash 
  */
 export function downvoteImage(imageHash) {
     return fetch(`${BASE_URL}/3/gallery/${imageHash}/vote/down`, generateUserRequest())
@@ -268,15 +258,14 @@ export function downvoteImage(imageHash) {
     .then((result) => {
         if (result.success)
             return Promise.resolve();
-        else
-            return Promise.reject(result.data);
+        return Promise.reject(result.data);
     });
 }
 
 /**
  * vetovoteImage
  * @description Veto Vote an Image
- * @param {*} imageHash 
+ * @param {string} imageHash 
  */
 export function vetovoteImage(imageHash) {
     return fetch(`${BASE_URL}/3/gallery/${imageHash}/vote/veto`, generateUserRequest())
@@ -286,7 +275,66 @@ export function vetovoteImage(imageHash) {
     .then((result) => {
         if (result.success)
             return Promise.resolve();
-        else
-            return Promise.reject(result.data);
+        return Promise.reject(result.data);
     });
 }
+
+/**
+ * getPostInfo
+ * @description get Post Info
+ * @param {string} imageHash 
+ */
+export function getPostInfo(imageHash) {
+    return fetch(`${BASE_URL}/3/image/${imageHash}`, generateClientRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
+    })
+}
+
+/**
+ * searchPost
+ * @description Search For Specific Post
+ * @param {string} query 
+ */
+export function searchPost(query) {
+    return fetch(`${BASE_URL}/3/gallery/search?q=${query}`, generateClientRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
+    })
+}
+
+export function getTags() {
+    return fetch(`${BASE_URL}/3/tags`, generateClientRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
+    });
+}
+
+export function searchByTag() {
+    return fetch(`${BASE_URL}/3/gallery/t//tags`, generateClientRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
+    });
+}
+
+

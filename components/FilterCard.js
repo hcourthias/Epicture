@@ -7,10 +7,11 @@ export default class CardImage extends React.PureComponent {
 
     render() {
         return (
-            <ImageBackground source={{ uri: 'https://i.imgur.com/oB1KOoT.png' }}
-            style={{ width: width, justifyContent: 'center', alignItems: 'center', marginTop: 10}}
+            <ImageBackground source={{ uri: `https://i.imgur.com/${this.props.tag.background_hash}.png` }}
+            style={{ width: width, justifyContent: 'center', alignItems: 'center', marginTop: 10,
+            backgroundColor: '#' + this.props.tag.accent}}
             imageStyle={{ opacity: 0.8 }}>
-                <Button transparent><Text style={styles.tagText}>Lego</Text></Button>
+                <Text style={styles.tagText}>{this.props.tag.name}</Text>
           </ImageBackground>
         )
     }
@@ -37,6 +38,9 @@ const styles = StyleSheet.create({
     tagText: {
         color: 'white',
         fontWeight: 'bold',
-        fontSize: 20
+        fontSize: 20,
+        textAlign: 'center',
+        paddingTop: 10,
+        paddingBottom: 10
     }
 });

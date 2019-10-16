@@ -1,17 +1,21 @@
 import React, { Component } from "react";
 import { Container, Text, Button, Thumbnail, Icon } from 'native-base';
 import { StyleSheet, Dimensions, ActivityIndicator } from 'react-native'
-import { loginImgur } from '../api/imgur'
+import { loginImgur, isSignedIn } from '../api/imgur'
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 
 class Picture extends Component {
 
     state = {
-        pictureUri: null
+        pictureUri: null,
+        isSignedIn: false,
     }
 
-    componentDidMount() {
+    componentWillMount() {
+        if (isSignedIn()) {
+            this.setState({ isSignIn: true })
+        }
     }
 
 
@@ -42,7 +46,7 @@ class Picture extends Component {
     };
 
     render() {
-        if (this.state.pictureUri == null)
+        if (this.state.isSignIn)
             return (
                 <Container style={styles.background}>
                     <Button style={styles.button}
@@ -58,7 +62,14 @@ class Picture extends Component {
                 </Container>
             )
         else
-            return <ActivityIndicator style={{ flex: 1, justifyContent: 'center' }} size="small" color="#FFF" />
+            return (
+                <Container style={styles.centerContainer}>
+                    <Button style={styles.loginButton}
+                        onPress={() => this.props.navigation.navigate('Login')}>
+                        <Text style={styles.loginButtonText}>LOGIN</Text>
+                    </Button>
+                </Container >
+            )
     }
 }
 
@@ -81,6 +92,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         fontFamily: 'VAGRounderStd',
         flexDirection: 'column'
+    },
+    loginButton: {
+        backgroundColor: '#19B76F',
+        width: width * 0.47,
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontFamily: 'VAGRounderStd'
+    },
+    centerContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#11181F',
     },
     buttonText: {
         color: '#FFF',
