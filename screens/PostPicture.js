@@ -6,7 +6,10 @@ import { loginImgur } from '../api/imgur'
 class PostPicture extends Component {
 
     state = {
-        image: {}
+        image: {},
+        title: null,
+        desc: null,
+        buttonDisabled: true,
     }
 
     backHandler = null
@@ -36,6 +39,15 @@ class PostPicture extends Component {
         );
         return true
     }
+
+    checkInputTitle = () => {
+        tmp = this.state.title
+        if (tmp.length == 0 || tmp.trim().length == 0)
+            this.setState({ buttonDisabled: true })
+        else {
+            this.setState({ buttonDisabled: false })
+        }
+    }
     render() {
         return (
             <Container style={styles.background}>
@@ -47,18 +59,22 @@ class PostPicture extends Component {
                         </Button>
                     </Left>
                     <Right>
-                        <Button transparent >
-                            <Text style={styles.buttonText}>POST</Text>
+                        <Button transparent disabled={this.state.buttonDisabled}
+                            onPress={() => this.handleCancelation()}>
+                            <Text style={this.state.buttonDisabled ? styles.buttonTextDisabled : styles.buttonText}>POST</Text>
                         </Button>
                     </Right>
                 </Header>
                 <Content contentContainerStyle={styles.content}>
                     <Item regular style={styles.titleInput}>
                         <Input placeholder='Post Title (required)'
-                            value={this.state.email}
+                            value={this.state.title}
                             placeholderTextColor='grey'
                             style={styles.titleText}
-                            onChangeText={email => this.setState({ email })} />
+                            onChangeText={title => this.setState({ title })}
+                            returnKeyType='search'
+                            onSubmitEditing={this.checkInputTitle}
+                            clearButtonMode="while-editing" />
                     </Item>
                     <Image source={{ uri: this.state.image.uri }}
                         style={{
@@ -69,10 +85,10 @@ class PostPicture extends Component {
                         }} />
                     <Item regular style={styles.descInput}>
                         <Input placeholder='Add description.'
-                            value={this.state.email}
+                            value={this.state.desc}
                             style={styles.descText}
                             placeholderTextColor='grey'
-                            onChangeText={email => this.setState({ email })}
+                            onChangeText={desc => this.setState({ desc })}
                         />
                     </Item>
                 </Content>
@@ -109,6 +125,11 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: '#FFF',
+        fontSize: 16,
+        textAlign: 'center',
+    },
+    buttonTextDisabled: {
+        color: 'grey',
         fontSize: 16,
         textAlign: 'center',
     },
