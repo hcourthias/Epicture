@@ -148,7 +148,6 @@ export function getGalleryTop(page) {
         return response.json();
     })
     .then((result) => {
-        console.log(result.data[0]);
         if (result.success)
             return Promise.resolve(result.data);
         else
@@ -257,7 +256,7 @@ export function upvoteImage(imageHash) {
     })
     .then((result) => {
         if (result.success)
-            return Promise.resolve();
+            return Promise.resolve(result.data);
         return Promise.reject(result.data);
     });
 }
@@ -302,7 +301,7 @@ export function vetovoteImage(imageHash) {
  * @param {string} imageHash 
  */
 export function favImage(imageHash) {
-    return fetch(`${BASE_URL}/3/image/${imageHash}/favorite`, generateUserRequest('POST'))
+    return fetch(`${BASE_URL}/3/album/${imageHash}/favorite`, generateUserRequest('POST'))
     .then((response) => {
         return response.json();
     })

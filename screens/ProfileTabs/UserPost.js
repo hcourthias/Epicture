@@ -18,7 +18,6 @@ class UserPost extends Component {
         getUserPosts().then((data) => {
             this.items = data;
             this.setState({ isReady: true });
-            console.log(data)
         })
     }
 

@@ -23,7 +23,6 @@ class Home extends Component {
                 isRefreshing: false,
             }));
             this.setState({ isReady: true });
-            console.log(this.state.items.length);
         }).catch(err => {
             console.error(err);
         });
@@ -33,6 +32,8 @@ class Home extends Component {
     handleRefresh = () => {
         this.setState({
             isRefreshing: true,
+            page: 0,
+            items: null
         }, () => {
             this.loadPost();
         });

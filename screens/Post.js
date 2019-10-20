@@ -3,6 +3,7 @@ import { Container, Text, Button, Header, Left, Right, Icon, Input, Item, Conten
 import { StyleSheet, Dimensions, View, ActivityIndicator, Image, StatusBar, FlatList, BackHandler } from 'react-native'
 import { loginImgur, uploadImage, getImageComments } from '../api/imgur'
 import CardImage from '../components/Card'
+import Comment from '../components/Comment'
 
 class Post extends Component {
 
@@ -15,20 +16,19 @@ class Post extends Component {
 
     componentWillMount() {
         const { navigation } = this.props;
-        this.setState({ data: navigation.getParam('data', {})})
+        this.setState({ data: navigation.getParam('data', {}) })
         getImageComments(navigation.getParam('data', {}).id)
-        .then((result) => {
-            this.setState({comments: result});
-            console.log("WOUALLEXZ");
+            .then((result) => {
+                this.setState({ comments: result });
+                console.log("WOUALLEXZ");
 
-            console.log(this.state.comments)
-        })
-        .catch((e => e));
+                console.log(this.state.comments)
+            })
+            .catch((e => e));
     }
 
     render() {
         console.log("HEHEHEH");
-        console.log(this.state.data)
         return (
             <Container style={styles.background}>
                 <Header style={styles.header}>
@@ -40,25 +40,28 @@ class Post extends Component {
                     </Body>
                 </Header>
                 <Content>
-                <CardImage image={this.state.data.images[0]}
-                    item={this.state.data}
-                    header={true}
-                    navigation={this.props.navigation} />
+                    <CardImage image={this.state.data.images[0]}
+                        item={this.state.data}
+                        header={true}
+                        navigation={this.props.navigation} />
+                    <View>
+                        <FlatList
+                            data={this.state.comments}
+                            initialNumToRender={5}
+                            maxToRenderPerBatch={10}
+                            windowSize={10}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={({ item }) => {
+                                try {
+                                    return <Comment item={item} />
+                                } catch (e) {
+                                    console.log(e);
+                                }
+                            }}
+                        />
+                    </View>
                 </Content>
-                <FlatList
-                        data={this.state.comments}
-                        initialNumToRender={5}
-                        maxToRenderPerBatch={10}
-                        windowSize={10}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={({ item }) => {
-                            try {
-                                return <Comment item={item} />
-                            } catch (e) {
-                                console.log(e);
-                            }
-                        }}
-                    />
+
             </Container>
         )
     }

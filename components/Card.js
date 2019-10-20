@@ -32,6 +32,7 @@ export default class CardImage extends React.PureComponent {
         this.setState({ upVoted: tmp });
         if (tmp) {
             upvoteImage(this.props.item.id).then((data) => {
+                console.log(data)
             })
             this.setState({ ups: tmp2 + 1 });
             if (this.state.downVoted) {
@@ -40,6 +41,7 @@ export default class CardImage extends React.PureComponent {
         } else {
             this.setState({ ups: tmp2 - 1 });
             vetovoteImage(this.props.item.id).then((data) => {
+                console.log(data)
             })
         }
     }
@@ -51,6 +53,7 @@ export default class CardImage extends React.PureComponent {
         this.setState({ downVoted: tmp });
         if (tmp) {
             downvoteImage(this.props.item.id).then((data) => {
+                console.log(data)
             })
             this.setState({ downs: tmp2 + 1 });
             if (this.state.upVoted) {
@@ -59,6 +62,7 @@ export default class CardImage extends React.PureComponent {
         } else {
             this.setState({ downs: tmp2 - 1 });
             vetovoteImage(this.props.item.id).then((data) => {
+                console.log(data)
             })
         }
     }

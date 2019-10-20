@@ -19,8 +19,6 @@ class Favorites extends Component {
         getUserFavorites().then((data) => {
             this.items = data;
             this.setState({ isReady: true });
-            console.log(data);
-            console.log("DONE");
         })
     }
 

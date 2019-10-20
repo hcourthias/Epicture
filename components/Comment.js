@@ -38,10 +38,6 @@ export default class Comment extends React.PureComponent {
                             <Icon style={this.state.downVoted ? styles.active : styles.white} name="arrow-down" />
                             <Text style={styles.white}>{this.state.downs}</Text>
                         </Button>
-                        <Button transparent>
-                            <Icon style={this.state.fav ? styles.active : styles.white} name="heart" />
-                            <Text style={styles.white}>{this.props.item.favorite_count}</Text>
-                        </Button>
                     </Left>
                 </CardItem>
             </Card>

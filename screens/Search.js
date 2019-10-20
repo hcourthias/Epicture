@@ -24,7 +24,6 @@ class Search extends Component {
         //this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.handleCancelation);
         getTags().then((data) => {
             this.setState({ tags: data.tags })
-            console.log(this.state.tags[50])
         })
     }
 
@@ -36,7 +35,6 @@ class Search extends Component {
 
 
     handleSearch = () => {
-        console.log(this.state.searchText)
         if (this.state.searchText.length == 0) {
             this.setState({items: null})
             return
@@ -44,18 +42,14 @@ class Search extends Component {
         this.setState({isFetching: true})
         searchPost(this.state.searchText).then((data) => {
             this.setState({items: data})
-            console.log(this.state.items)
             this.setState({isFetching: false})
         })
-        console.log("coucou")
     }
 
     onPressButton = (item) => {
-        console.log(item.name)
         this.setState({isFetching: true})
         searchByTag(item.name).then((data) => {
             this.setState({items: data.items})
-            console.log(this.state.items)
             this.setState({isFetching: false})
 
         })
