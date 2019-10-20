@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { Container, Text, Button, Header, Left, Right, Icon, Input, Item, Content, Body, Thumbnail } from 'native-base';
 import { StyleSheet, Dimensions, View, ActivityIndicator, Image, StatusBar, FlatList, BackHandler } from 'react-native'
 import { loginImgur, uploadImage, getImageComments } from '../api/imgur'
-import CardImage from '../components/Card'
+import CardFullPost from '../components/CardFullPost'
 import Comment from '../components/Comment'
+import { Video } from 'expo-av';
 
 class Post extends Component {
 
@@ -36,13 +37,12 @@ class Post extends Component {
                         <Icon name="arrow-back" style={{ color: '#FFF', fontSize: 30 }} />
                     </Button>
                     <Body>
-                        <Text style={styles.titleText}>{this.state.data.title}</Text>
+                        <Text style={styles.titleText}>Post</Text>
                     </Body>
                 </Header>
                 <Content>
-                    <CardImage image={this.state.data.images[0]}
+                    <CardFullPost image={this.state.data.images[0]}
                         item={this.state.data}
-                        header={true}
                         navigation={this.props.navigation} />
                     <View>
                         <FlatList

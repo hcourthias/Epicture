@@ -1,19 +1,29 @@
 import React from "react";
 import { Text, Button, Thumbnail, Card, CardItem, Left, Right, Body, Icon } from 'native-base';
-import { StyleSheet, Dimensions, Image, StatusBar, TouchableHighlight } from 'react-native'
-import {downvoteImage, upvoteImage, vetovoteImage, favImage} from '../api/imgur'
+import { StyleSheet, Dimensions, Image, View, TouchableOpacity } from 'react-native'
+import { downvoteImage, upvoteImage, vetovoteImage, favImage, getUserAvatar } from '../api/imgur'
+import { Video } from 'expo-av';
 
-export default class CardVideo extends React.PureComponent {
+export default class CardFullPost extends React.PureComponent {
 
     state = {
         result: null,
-        upVoted: false,
-        downVoted: false,
-        fav: false,
+        upVoted: this.props.item.vote === "up" ? true : false,
+        downVoted: this.props.item.vote === "down" ? true : false,
+        fav: this.props.item.favorite,
         ups: this.props.item.ups,
-        downs: this.props.item.downs
+        downs: this.props.item.downs,
+        shouldPlay: true,
+        isLooping: true,
+        showIcon: true,
     };
 
+    handlePlayAndPause = () => {  
+        this.setState((prevState) => ({
+           shouldPlay: !prevState.shouldPlay,
+           isLooping: !prevState.isLooping
+        }));
+      }
     isUpVoted() {
         tmp = !this.state.upVoted
         tmp2 = this.state.ups
@@ -22,14 +32,16 @@ export default class CardVideo extends React.PureComponent {
         this.setState({ upVoted: tmp });
         if (tmp) {
             upvoteImage(this.props.item.id).then((data) => {
+                console.log(data)
             })
             this.setState({ ups: tmp2 + 1 });
             if (this.state.downVoted) {
                 this.setState({ downs: tmp3 - 1, downVoted: false });
             }
-        }else {
+        } else {
             this.setState({ ups: tmp2 - 1 });
             vetovoteImage(this.props.item.id).then((data) => {
+                console.log(data)
             })
         }
     }
@@ -41,38 +53,61 @@ export default class CardVideo extends React.PureComponent {
         this.setState({ downVoted: tmp });
         if (tmp) {
             downvoteImage(this.props.item.id).then((data) => {
+                console.log(data)
             })
             this.setState({ downs: tmp2 + 1 });
             if (this.state.upVoted) {
                 this.setState({ ups: tmp3 - 1, upVoted: false });
             }
-        } else
+        } else {
             this.setState({ downs: tmp2 - 1 });
             vetovoteImage(this.props.item.id).then((data) => {
+                console.log(data)
             })
+        }
     }
 
     isFav() {
         tmp = !this.state.fav
 
-        this.setState({ fav: tmp }); 
-        favImage(this.props.image.id).then((data) => {
+        this.setState({ fav: tmp });
+        favImage(this.props.item.id).then((data) => {
         })
     }
+
     render() {
+        console.log(this.props.image)
         return (
             <Card transparent>
                 <CardItem style={styles.card}>
                     <Left>
-                        <Thumbnail source={{ uri: 'https://image.noelshack.com/fichiers/2019/41/7/1570993072-70585617-3097304210311586-7609197454411431936-n-1.jpg' }} />
+                        <Thumbnail source={{ uri: `https://imgur.com/user/${this.props.item.account_url}/avatar?maxwidth=290` }} />
                         <Body>
                             <Text style={styles.title}>{this.props.item.title}</Text>
                             <Text style={styles.username}>{this.props.item.account_url}</Text>
                         </Body>
                     </Left>
                 </CardItem>
-                <CardItem cardBody>
-                    <Image source={{ uri: `https://i.imgur.com/${this.props.image.id}.gif` }} style={{ aspectRatio: this.props.image.width / this.props.image.height, flex: 1 }} />
+                <CardItem cardBody style={{ aspectRatio: this.props.image.width / this.props.image.height, flex: 1 }}>
+                    <TouchableOpacity onPress={() => this.handlePlayAndPause()}>
+                        {this.props.image.type.includes('video') ?
+                            <Video
+                                source={{ uri: this.props.image.link }}
+                                rate={1.0}
+                                volume={1.0}
+                                isMuted={false}
+                                resizeMode="cover"
+                                shouldPlay={this.state.shouldPlay}
+                                isLooping={this.state.isLooping}
+                                style={{ aspectRatio: this.props.image.width / this.props.image.height, flex: 1 }}
+                            />
+                             :
+                            <Image source={{ uri: `https://i.imgur.com/${this.props.image.id}.gif` }}
+                                style={{ aspectRatio: this.props.image.width / this.props.image.height, flex: 1 }} />}
+                            {!this.state.shouldPlay && <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center' }}>
+                                <Icon style={{ fontSize: 50, color: 'white' }} name='play' />
+                            </View>}
+                    </TouchableOpacity>
                 </CardItem>
                 <CardItem style={styles.card}>
                     <Left>
@@ -115,5 +150,18 @@ const styles = StyleSheet.create({
     username: {
         color: 'white',
         fontSize: 14
-    }
+    },
+    playView: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        top: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    playIcon: {
+        color: 'white',
+        fontSize: 50
+    },
 });

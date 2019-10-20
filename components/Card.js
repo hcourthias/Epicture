@@ -18,12 +18,6 @@ export default class CardImage extends React.PureComponent {
         showIcon: true,
     };
 
-    handleCancelation = () => {
-        if (this.props.header) {
-            this.props.navigation.navigate('Post', {data: this.props.item})
-        }
-    }
-
     isUpVoted() {
         tmp = !this.state.upVoted
         tmp2 = this.state.ups
@@ -76,9 +70,10 @@ export default class CardImage extends React.PureComponent {
     }
 
     render() {
+        console.log(this.props.image)
         return (
             <Card transparent>
-                {this.props.header && <CardItem style={styles.card}>
+                <CardItem style={styles.card}>
                     <Left>
                         <Thumbnail source={{ uri: `https://imgur.com/user/${this.props.item.account_url}/avatar?maxwidth=290` }} />
                         <Body>
@@ -86,11 +81,15 @@ export default class CardImage extends React.PureComponent {
                             <Text style={styles.username}>{this.props.item.account_url}</Text>
                         </Body>
                     </Left>
-                </CardItem>} 
+                </CardItem>
                 <CardItem cardBody style={{ aspectRatio: this.props.image.width / this.props.image.height, flex: 1 }}>
-                    <TouchableOpacity onPress={() => this.handleCancelation()}>
-                    <Image source={{ uri: `https://i.imgur.com/${this.props.image.id}.gif` }}
-                        style={{ aspectRatio: this.props.image.width / this.props.image.height, flex: 1 }} />
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Post', { data: this.props.item })
+                    }>
+                        <Image source={{ uri: `https://i.imgur.com/${this.props.image.id}.gif` }}
+                            style={{ aspectRatio: this.props.image.width / this.props.image.height, flex: 1 }} />
+                        {this.props.image.type.includes('video') && <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center' }}>
+                            <Icon style={{ fontSize: 50, color: 'white' }} name='play' />
+                        </View>}
                     </TouchableOpacity>
                 </CardItem>
                 <CardItem style={styles.card}>

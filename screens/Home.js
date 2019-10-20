@@ -76,7 +76,6 @@ class Home extends Component {
                                 return <CardImage
                                     image={item.images[0]}
                                     item={item}
-                                    header={true}
                                     navigation={this.props.navigation}
                                 />
                             } catch (e) {
