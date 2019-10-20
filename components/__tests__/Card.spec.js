@@ -182,7 +182,7 @@ describe('<CardImage>', () => {
     });
 
     it('Correct Image URL', () => {
-        expect(tree.children[1].children[0].props.source.uri).toBe(`https://i.imgur.com/${image.images[0].id}.gif`);
+        expect(tree.children[1].children[0].children[0].props.source.uri).toBe(`https://i.imgur.com/${image.images[0].id}.gif`);
     });
 
     it('Correct Number of Upvotes', () => {
