@@ -10,6 +10,7 @@ class PostPicture extends Component {
         title: null,
         desc: "",
         buttonDisabled: true,
+        isUploading: false,
     }
 
     backHandler = null
@@ -51,12 +52,15 @@ class PostPicture extends Component {
 
 
     uploadImage = () => {
+        this.setState({isUploading: true})
         let formData = new FormData();
         formData.append("image", this.state.image.base64); 
         formData.append("type", "base64");
         formData.append("title", this.state.title)
         formData.append("description", this.state.desc)
         uploadImage(formData).then((data) => {
+            this.setState({isUploading: false})
+            this.props.navigation.navigate('Profile')
         })
     }
     render() {
@@ -70,10 +74,10 @@ class PostPicture extends Component {
                         </Button>
                     </Left>
                     <Right>
-                        <Button transparent disabled={this.state.buttonDisabled}
+                        {!this.state.isUploading ? <Button transparent disabled={this.state.buttonDisabled}
                             onPress={() => this.uploadImage()}>
                             <Text style={this.state.buttonDisabled ? styles.buttonTextDisabled : styles.buttonText}>POST</Text>
-                        </Button>
+                        </Button> : <ActivityIndicator size="small" color="#FFF" />}
                     </Right>
                 </Header>
                 <Content contentContainerStyle={styles.content}>
