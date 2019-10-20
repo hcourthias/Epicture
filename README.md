@@ -20,3 +20,11 @@ If you want to work on the app, you can use ```expo start``` and then choose you
 ## Testing
 
 Some elements of the app are unit tested, you can run teses tests with ```npm run test:unit```.
+
+## Evalutation
+
+For the Manual evaluation, we have prepared an Expo account which can be used.
+Username: tam-epitcure
+Password: qwerty31
+
+Once logged in you can now access the last [build](https://expo.io/builds/535c0f1e-b843-435d-8bfe-7efad25cf530). You can also access the [project page](https://expo.io/@tam-epicture/epicture), where you can access the application using the QR Code on the webpage.
