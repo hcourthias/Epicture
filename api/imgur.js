@@ -108,8 +108,10 @@ export function loginInit() {
 function generateClientRequest(method = 'GET') {
     return {
         method,
+        credentials: 'include',
         headers: {
-            Authorization: `Client-ID ${api.client_id}`
+            Authorization: `Client-ID ${api.client_id}`,
+            Cookie: `accesstoken=${user_token}`
         }
     };
 }
