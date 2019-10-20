@@ -114,12 +114,19 @@ export function loginInit() {
  * @param {string} method 
  */
 function generateClientRequest(method = 'GET') {
+    if (user_token)
+        return {
+            method,
+            credentials: 'include',
+            headers: {
+                Authorization: `Client-ID ${api.client_id}`,
+                Cookie: `accesstoken=${user_token}`
+            }
+        };
     return {
         method,
-        credentials: 'include',
         headers: {
-            Authorization: `Client-ID ${api.client_id}`,
-            Cookie: `accesstoken=${user_token}`
+            Authorization: `Client-ID ${api.client_id}`
         }
     };
 }

@@ -2,9 +2,9 @@
 
 ## Getting Started
 
-### Technologie used
+### Technology used
 
-Our Epitcure is written in Javascript using React-Native to work on mobile platform. The avantages of using React-Native are that we can target both Android and iOS. Javascript is simpler, more flexible and simply better on small apps which asks for no special performance. Javascript also has many differents librairies which can be used to boost development, and are very easy to install and use in a project. Furthermore, we wanted to discover Cross Platform development, as we have a background in native app development.
+Our Epitcure is written in Javascript using React-Native to work on mobile platforms. The advantages of using React-Native are that we can target both Android and iOS. Javascript is simpler, more flexible and simply better on small apps which asks for no special performance. Javascript also has many different libraries which can be used to boost development, and are very easy to install and use in a project. Furthermore, we wanted to discover Cross Platform development, as we have a background in native app development.
 
 ## Installation
 
@@ -19,7 +19,11 @@ If you want to work on the app, you can use ```expo start``` and then choose you
 
 ## Testing
 
-Some elements of the app are unit tested, you can run teses tests with ```npm run test:unit```.
+Some elements of the app are unit tested, you can run theses tests with ```npm run test:unit```.
+
+## Architecture
+
+The Development Architecture we use are reusable elements, and separation of view and API logic.
 
 ## Evalutation
 
@@ -27,4 +31,4 @@ For the Manual evaluation, we have prepared an Expo account which can be used.
 Username: tam-epitcure
 Password: qwerty31
 
-Once logged in you can now access the last [build](https://expo.io/builds/535c0f1e-b843-435d-8bfe-7efad25cf530). You can also access the [project page](https://expo.io/@tam-epicture/epicture), where you can access the application using the QR Code on the webpage.
+Once logged in, you can now access the last [build](https://expo.io/builds/65c66ec0-2162-4e85-87a5-2fd66e2ffbb4). You can also access the [project page](https://expo.io/@tam-epicture/epicture).
