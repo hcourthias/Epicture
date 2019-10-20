@@ -1,24 +1,29 @@
 import React, { Component } from "react";
-import { Container, Text, Button, Thumbnail, Header, Body, Tab, Tabs } from 'native-base';
-import { StyleSheet, Dimensions, Image, StatusBar, FlatList, ImageBackground } from 'react-native'
-import Post from './ProfileTabs/Post'
+import { Container, Text, Button, Thumbnail, Header, Body, Tab, Tabs, Icon, Right } from 'native-base';
+import { StyleSheet, Dimensions, TouchableOpacity, StatusBar, FlatList, ImageBackground } from 'react-native'
+import UserPost from './ProfileTabs/UserPost'
 import Favorites from './ProfileTabs/Favorites.js'
 import Following from './ProfileTabs/Following.js'
 import Comments from './ProfileTabs/Comments.js'
-import {getUserProfile} from '../api/imgur'
+import { getUserProfile, isSignedIn, logoutImgur } from '../api/imgur'
+import * as ImagePicker from 'expo-image-picker';
+
 class Profile extends Component {
 
     state = {
-        isSignIn: true,
-        userInfo: {}
+        isSignIn: false,
+        userInfo: {},
+        date: new Date()
     };
 
+
     componentWillMount() {
+        if (isSignedIn())
+            this.setState({ isSignIn: true })
         getUserProfile().then((result) => {
-            this.setState({userInfo: result})
-            this.setState({isSignIn: true})
-            console.log(this.state.userInfo)
-        })
+            this.setState({ userInfo: result })
+            this.setState({ date: new Date(result.created * 1000) })
+        }).catch((err) => err)
     }
 
     render() {
@@ -38,32 +43,34 @@ class Profile extends Component {
                     source={{ uri: this.state.userInfo.cover }}
                     style={{ width: width, height: height * 0.2, justifyContent: 'center' }}
                     imageStyle={{ opacity: 0.8 }}>
+                    <TouchableOpacity style={{ position: 'absolute', right: 10, top: 10}} onPress={() => logoutImgur().then(() =>this.props.navigation.navigate('Login'))}>
+                        <Icon name='exit' style={{color: 'white' }} />
+                    </TouchableOpacity>
                     <Header transparent>
                         <StatusBar barStyle="light-content" />
                         <Body style={{ justifyContent: 'center', alignItems: 'center' }}>
                             <Thumbnail source={{ uri: this.state.userInfo.avatar }} />
                             <Text style={styles.username}>{this.state.userInfo.username}</Text>
                             <Text style={styles.info}>{this.state.userInfo.reputation_name} • {this.state.userInfo.reputation} Points</Text>
-                            <Text style={styles.date}>Created Oct 13, 2019</Text>
+                            <Text style={styles.date}>Created on {this.state.date.getMonth() + 1}/{this.state.date.getFullYear()}</Text>
 
                         </Body>
                     </Header>
                 </ImageBackground>
                 <Tabs tabStyle>
-                    <Tab activeTabStyle={{backgroundColor: '#11181F'}}
-                    tabStyle={{backgroundColor: '#11181F'}}
-                    heading="Posts"><Post/></Tab>
-                    <Tab activeTabStyle={{backgroundColor: '#11181F'}}
-                    tabStyle={{backgroundColor: '#11181F'}}
-                    heading="Favorites"><Favorites/></Tab>
-                    <Tab activeTabStyle={{backgroundColor: '#11181F'}}
-                    tabStyle={{backgroundColor: '#11181F'}}
-                    heading="Following"><Following/></Tab>
-                    <Tab activeTabStyle={{backgroundColor: '#11181F'}}
-                    tabStyle={{backgroundColor: '#11181F'}}
-                    heading="Comments"><Comments/></Tab>
+                    <Tab activeTabStyle={{ backgroundColor: '#11181F' }}
+                        tabStyle={{ backgroundColor: '#11181F' }}
+                        heading="Posts"><UserPost navigation={this.props.navigation} /></Tab>
+                    <Tab activeTabStyle={{ backgroundColor: '#11181F' }}
+                        tabStyle={{ backgroundColor: '#11181F' }}
+                        heading="Favorites"><Favorites navigation={this.props.navigation} /></Tab>
+                    <Tab activeTabStyle={{ backgroundColor: '#11181F' }}
+                        tabStyle={{ backgroundColor: '#11181F' }}
+                        heading="Following"><Following navigation={this.props.navigation} /></Tab>
+                    <Tab activeTabStyle={{ backgroundColor: '#11181F' }}
+                        tabStyle={{ backgroundColor: '#11181F' }}
+                        heading="Comments"><Comments navigation={this.props.navigation} /></Tab>
                 </Tabs>
-
             </Container >
         )
     }

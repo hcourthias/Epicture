@@ -17,7 +17,6 @@ export default class App extends React.Component {
       Roboto: require("native-base/Fonts/Roboto.ttf"),
       Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
       VAGRounderStd: require("./assets/fonts/VAGRoundedStd.otf"),
-      Avenir: require("./assets/fonts/Avenir.otf")
     });
     this.setState({ loading: false });
   }

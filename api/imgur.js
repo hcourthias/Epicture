@@ -38,10 +38,15 @@ export function loginImgur() {
         refresh_token = result.params.refresh_token;
         username = result.params.account_username;
         return saveUserAuth();
-    })
-    .then(() => {
-        getUserProfile();
     });
+}
+
+/**
+ * logoutImgur
+ * @description Logout
+ */
+export function logoutImgur() {
+    return AsyncStorage.removeItem('userAuth');
 }
 
 /**
@@ -98,15 +103,8 @@ export function loginInit() {
             user_token = userAuth.user_token;
             refresh_token = userAuth.refresh_token;
             username = userAuth.username;
-            return refreshAuthToken(userAuth);
-        })
-        .then((result) => {
             resolve();
-        })
-        .catch((error) => {
-            console.log(error);
-            reject(error);
-        })
+        });
     });
 }
 
@@ -116,11 +114,26 @@ export function loginInit() {
  * @param {string} method 
  */
 function generateClientRequest(method = 'GET') {
-    console.log(user_token);
+    return {
+        method,
+        credentials: 'include',
+        headers: {
+            Authorization: `Client-ID ${api.client_id}`,
+            Cookie: `accesstoken=${user_token}`
+        }
+    };
+}
+
+/**
+ * generateUserRequest
+ * @description Generate Request Init Object for Imgur Api Fetch
+ * @param {string} method HTTP Method
+ */
+function generateUserRequest(method = 'GET') {
     return {
         method,
         headers: {
-            Authorization: `Client-ID ${api.client_id}`
+            Authorization: `Bearer ${user_token}`
         }
     };
 }
@@ -129,11 +142,17 @@ function generateClientRequest(method = 'GET') {
  * getGalleryTop
  * @description Get Gallery Top
  */
-export function getGalleryTop() {
-    return fetch(`${BASE_URL}/3/gallery/top`, generateClientRequest())
+export function getGalleryTop(page) {
+    return fetch(`${BASE_URL}/3/gallery/top/${page}`, generateClientRequest())
     .then((response) => {
         return response.json();
-    });
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        else
+            return Promise.reject(result.data);
+    })
 }
 
 /**
@@ -144,19 +163,22 @@ export function getGalleryHot() {
     return fetch(`${BASE_URL}/3/gallery/hot`, generateClientRequest())
     .then((response) => {
         return response.json();
-    });
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
+    })
 }
 
 /**
- * upvoteImage
- * @description Endpoint to Upvote an Image
- * @param {string} idImage Identifier of the image
+ * isSignedIn
+ * @description Checks if a user signed in
  */
-export function upvoteImage(idImage) {
-    return fetch(``, generateClientRequest('POST'))
-    .then((response) => {
-        return response.json();
-    });
+export function isSignedIn() {
+    if (user_token && username)
+        return true;
+    return false;
 }
 
 /**
@@ -172,6 +194,233 @@ export function getUserProfile(clientName = username) {
     })
     .then((result) => {
         result.data.username = username;
-        return Promise.resolve(result.data);
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
     });
+}
+
+/**
+ * getUserPosts
+ * @description Get User's Posts
+ */
+export function getUserPosts() {
+    return fetch(`${BASE_URL}/3/account/me/images`, generateUserRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
+    });
+}
+
+/**
+ * getUserFavorites
+ * @description Get User's Favoite
+ */
+export function getUserFavorites() {
+    return fetch(`${BASE_URL}/3/account/${username}/favorites`, generateUserRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
+    });
+}
+
+export function getUserComments() {
+    return fetch(`${BASE_URL}/3/account/${username}/comments`, generateUserRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
+    });
+}
+
+/**
+ * upvoteImage
+ * @description Upvote An Image
+ * @param {string} imageHash 
+ */
+export function upvoteImage(imageHash) {
+    return fetch(`${BASE_URL}/3/gallery/${imageHash}/vote/up`, generateUserRequest('POST'))
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
+    });
+}
+
+/**
+ * downvoteImage
+ * @description Downvote an Image
+ * @param {string} imageHash 
+ */
+export function downvoteImage(imageHash) {
+    return fetch(`${BASE_URL}/3/gallery/${imageHash}/vote/down`, generateUserRequest('POST'))
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve();
+        return Promise.reject(result.data);
+    });
+}
+
+/**
+ * vetovoteImage
+ * @description Veto Vote an Image
+ * @param {string} imageHash 
+ */
+export function vetovoteImage(imageHash) {
+    return fetch(`${BASE_URL}/3/gallery/${imageHash}/vote/veto`, generateUserRequest('POST'))
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve();
+        return Promise.reject(result.data);
+    });
+}
+
+/**
+ * favImage
+ * @description Fav an Image
+ * @param {string} imageHash 
+ */
+export function favImage(imageHash) {
+    return fetch(`${BASE_URL}/3/image/${imageHash}/favorite`, generateUserRequest('POST'))
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
+    });
+}
+
+export function favAlbum(idAlbum) {
+    return fetch(`${BASE_URL}/3/album/${idAlbum}/favorite`, generateUserRequest('POST'))
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
+    });
+}
+
+/**
+ * getPostInfo
+ * @description get Post Info
+ * @param {string} imageHash 
+ */
+export function getPostInfo(imageHash) {
+    return fetch(`${BASE_URL}/3/image/${imageHash}`, generateClientRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
+    })
+}
+
+/**
+ * searchPost
+ * @description Search For Specific Post
+ * @param {string} query 
+ */
+export function searchPost(query) {
+    return fetch(`${BASE_URL}/3/gallery/search?q=${query}`, generateClientRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
+    })
+}
+
+export function getTags() {
+    return fetch(`${BASE_URL}/3/tags`, generateClientRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
+    });
+}
+
+export function searchByTag(tag) {
+    return fetch(`${BASE_URL}/3/gallery/t/${tag}`, generateClientRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
+    });
+}
+
+/**
+ * downvoteImage
+ * @description Downvote an Image
+ * @param {string} imageHash 
+ */
+export function uploadImage(formData) {
+    const tmp = generateUserRequest('POST')
+    tmp.body = formData
+    return fetch(`${BASE_URL}/3/upload`, tmp)
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
+    });
+}
+
+export function getUserAvatar(username) {
+    return fetch(`${BASE_URL}/3/account/${username}`, generateUserRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data.avatar);
+        return Promise.reject(result.data);
+    });
+}
+
+export function getImageComments(idImage) {
+    return fetch(`${BASE_URL}/3/gallery/${idImage}/comments`, generateClientRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
+    })
 }
