@@ -19,9 +19,8 @@ export default class CardImage extends React.PureComponent {
     };
 
     handleCancelation = () => {
-        console.log("tuut")
         if (this.props.header) {
-            this.props.navigation.navigate('Post', {data: this.props.item, image: this.props.image})
+            this.props.navigation.navigate('Post', {data: this.props.item})
         }
     }
 
@@ -68,7 +67,7 @@ export default class CardImage extends React.PureComponent {
         tmp = !this.state.fav
 
         this.setState({ fav: tmp });
-        favImage(this.props.item.image.id).then((data) => {
+        favImage(this.props.item.id).then((data) => {
         })
     }
 

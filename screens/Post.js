@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container, Text, Button, Header, Left, Right, Icon, Input, Item, Content, Body, Thumbnail } from 'native-base';
-import { StyleSheet, Dimensions, AsyncStorage, ActivityIndicator, Image, StatusBar, Alert, BackHandler } from 'react-native'
+import { StyleSheet, Dimensions, View, ActivityIndicator, Image, StatusBar, FlatList, BackHandler } from 'react-native'
 import { loginImgur, uploadImage, getImageComments } from '../api/imgur'
 import CardImage from '../components/Card'
 
@@ -8,7 +8,6 @@ class Post extends Component {
 
     state = {
         data: {},
-        images: {},
         comments: []
     }
 
@@ -16,11 +15,13 @@ class Post extends Component {
 
     componentWillMount() {
         const { navigation } = this.props;
-        this.setState({ data: navigation.getParam('data', {}),
-                        images: navigation.getParam('image', {}) })
+        this.setState({ data: navigation.getParam('data', {})})
         getImageComments(navigation.getParam('data', {}).id)
         .then((result) => {
             this.setState({comments: result});
+            console.log("WOUALLEXZ");
+
+            console.log(this.state.comments)
         })
         .catch((e => e));
     }
@@ -39,11 +40,25 @@ class Post extends Component {
                     </Body>
                 </Header>
                 <Content>
-                <CardImage image={this.state.images}
+                <CardImage image={this.state.data.images[0]}
                     item={this.state.data}
                     header={true}
                     navigation={this.props.navigation} />
                 </Content>
+                <FlatList
+                        data={this.state.comments}
+                        initialNumToRender={5}
+                        maxToRenderPerBatch={10}
+                        windowSize={10}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item }) => {
+                            try {
+                                return <Comment item={item} />
+                            } catch (e) {
+                                console.log(e);
+                            }
+                        }}
+                    />
             </Container>
         )
     }

@@ -29,7 +29,7 @@ const PostNavigator = createStackNavigator({
 
 const HomeTabs = createBottomTabNavigator({
     Feed: {
-        screen: PostNavigator,
+        screen: Home,
         navigationOptions: {
             title: "tutu",
             tabBarLabel: 'Home',
@@ -81,7 +81,7 @@ const HomeTabs = createBottomTabNavigator({
 )
 
 
-const SwitchNavigator = createAnimatedSwitchNavigator(
+const SwitchNavigator = createStackNavigator(
     {
         Login: {
             screen: Login
@@ -92,19 +92,14 @@ const SwitchNavigator = createAnimatedSwitchNavigator(
         PostPicture: {
             screen: PostPicture
         },
+        Post: { screen: Post}
     },
     {
-        initialRouteName: 'Login',
-        transition: (
-            <Transition.Together>
-              <Transition.Out
-                type="slide-top"
-                durationMs={200}
-                interpolation="easeIn"
-              />
-              <Transition.In type="fade" durationMs={500} />
-            </Transition.Together>
-          ),
+        headerMode: 'none',
+        mode: 'modal',
+        defaultNavigationOptions: {
+          gesturesEnabled: false,
+        },
     }
 )
 

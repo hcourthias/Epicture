@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { Container, Text, Button, Thumbnail, Header, Body, Tab, Tabs, Icon } from 'native-base';
+import { Container, Text, Button, Thumbnail, Header, Body, Tab, Tabs, Icon, Right } from 'native-base';
 import { StyleSheet, Dimensions, TouchableOpacity, StatusBar, FlatList, ImageBackground } from 'react-native'
 import UserPost from './ProfileTabs/UserPost'
 import Favorites from './ProfileTabs/Favorites.js'
 import Following from './ProfileTabs/Following.js'
 import Comments from './ProfileTabs/Comments.js'
-import { getUserProfile, isSignedIn } from '../api/imgur'
+import { getUserProfile, isSignedIn, logoutImgur } from '../api/imgur'
 import * as ImagePicker from 'expo-image-picker';
 
 class Profile extends Component {
@@ -21,8 +21,8 @@ class Profile extends Component {
         if (isSignedIn())
             this.setState({ isSignIn: true })
         getUserProfile().then((result) => {
-            this.setState({ userInfo: result})
-            this.setState({ date: new Date(result.created * 1000)})
+            this.setState({ userInfo: result })
+            this.setState({ date: new Date(result.created * 1000) })
         })
     }
 
@@ -43,6 +43,9 @@ class Profile extends Component {
                     source={{ uri: this.state.userInfo.cover }}
                     style={{ width: width, height: height * 0.2, justifyContent: 'center' }}
                     imageStyle={{ opacity: 0.8 }}>
+                    <TouchableOpacity style={{ position: 'absolute', right: 10, top: 10}} onPress={() => logoutImgur().then(() =>this.props.navigation.navigate('Login'))}>
+                        <Icon name='exit' style={{color: 'white' }} />
+                    </TouchableOpacity>
                     <Header transparent>
                         <StatusBar barStyle="light-content" />
                         <Body style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -57,16 +60,16 @@ class Profile extends Component {
                 <Tabs tabStyle>
                     <Tab activeTabStyle={{ backgroundColor: '#11181F' }}
                         tabStyle={{ backgroundColor: '#11181F' }}
-                        heading="Posts"><UserPost /></Tab>
+                        heading="Posts"><UserPost navigation={this.props.navigation} /></Tab>
                     <Tab activeTabStyle={{ backgroundColor: '#11181F' }}
                         tabStyle={{ backgroundColor: '#11181F' }}
-                        heading="Favorites"><Favorites /></Tab>
+                        heading="Favorites"><Favorites navigation={this.props.navigation} /></Tab>
                     <Tab activeTabStyle={{ backgroundColor: '#11181F' }}
                         tabStyle={{ backgroundColor: '#11181F' }}
-                        heading="Following"><Following /></Tab>
+                        heading="Following"><Following navigation={this.props.navigation} /></Tab>
                     <Tab activeTabStyle={{ backgroundColor: '#11181F' }}
                         tabStyle={{ backgroundColor: '#11181F' }}
-                        heading="Comments"><Comments /></Tab>
+                        heading="Comments"><Comments navigation={this.props.navigation} /></Tab>
                 </Tabs>
             </Container >
         )

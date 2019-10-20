@@ -99,6 +99,7 @@ class Search extends Component {
                                     image={item.images[0]}
                                     item={item}
                                     header={true}
+                                    navigation={this.props.navigation}
                                 />
                             } catch (e) {
                                 console.log(e);

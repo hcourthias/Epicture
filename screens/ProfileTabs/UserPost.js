@@ -39,6 +39,7 @@ class UserPost extends Component {
                                     image={{id: item.id, height: item.height, width: item.width}}
                                     item={item}
                                     header={true}
+                                    navigation={this.props.navigation}
                                 />
                             } catch (e) {
                                 console.log(e);
