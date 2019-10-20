@@ -18,14 +18,12 @@ class Profile extends Component {
 
 
     componentWillMount() {
-        if (isSignedIn()) {
+        if (isSignedIn())
             this.setState({ isSignIn: true })
-        }
         getUserProfile().then((result) => {
             this.setState({ userInfo: result})
-            this.setState({ date: new Date(this.userInfo.created)})
+            this.setState({ date: new Date(result.created * 1000)})
         })
-
     }
 
     render() {
