@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container, Text } from 'native-base';
-import { StyleSheet, Dimensions, FlatList, ActivityIndicator } from 'react-native'
+import { StyleSheet, Dimensions, FlatList, ActivityIndicator, BackHandler } from 'react-native'
 import CardImage from '../components/Card'
 import { getGalleryTop, getUserAvatar } from '../api/imgur'
 
@@ -23,9 +23,7 @@ class Home extends Component {
                 isRefreshing: false,
             }));
             this.setState({ isReady: true });
-        }).catch(err => {
-            console.error(err);
-        });
+        }).catch(err => err);
     }
 
 
@@ -70,18 +68,13 @@ class Home extends Component {
                         onEndThreshold={0}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item, index }) => {
-                            try {
-                                if (!item.images)
-                                    return;
-                                return <CardImage
-                                    image={item.images[0]}
-                                    item={item}
-                                    navigation={this.props.navigation}
-                                />
-                            } catch (e) {
-                                console.log(e);
-                                console.log(`Error at ${index}`);
-                            }
+                            if (!item.images)
+                                return;
+                            return <CardImage
+                                image={item.images[0]}
+                                item={item}
+                                navigation={this.props.navigation}
+                            />
                         }}
                     />
                     :

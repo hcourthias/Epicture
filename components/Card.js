@@ -11,8 +11,8 @@ export default class CardImage extends React.PureComponent {
         upVoted: this.props.item.vote === "up" ? true : false,
         downVoted: this.props.item.vote === "down" ? true : false,
         fav: this.props.item.favorite,
-        ups: this.props.item.ups,
-        downs: this.props.item.downs,
+        ups: this.props.item.ups ?this.props.item.ups : 0 ,
+        downs: this.props.item.downs ?this.props.item.downs : 0,
         shouldPlay: false,
         isLooping: false,
         showIcon: true,
@@ -31,18 +31,14 @@ export default class CardImage extends React.PureComponent {
 
         this.setState({ upVoted: tmp });
         if (tmp) {
-            upvoteImage(this.props.item.id).then((data) => {
-                console.log(data)
-            })
+            upvoteImage(this.props.item.id).catch(err => err)
             this.setState({ ups: tmp2 + 1 });
             if (this.state.downVoted) {
                 this.setState({ downs: tmp3 - 1, downVoted: false });
             }
         } else {
             this.setState({ ups: tmp2 - 1 });
-            vetovoteImage(this.props.item.id).then((data) => {
-                console.log(data)
-            })
+            vetovoteImage(this.props.item.id).catch(err => err)
         }
     }
     isDownVoted() {
@@ -52,18 +48,14 @@ export default class CardImage extends React.PureComponent {
 
         this.setState({ downVoted: tmp });
         if (tmp) {
-            downvoteImage(this.props.item.id).then((data) => {
-                console.log(data)
-            })
+            downvoteImage(this.props.item.id).catch(err => err)
             this.setState({ downs: tmp2 + 1 });
             if (this.state.upVoted) {
                 this.setState({ ups: tmp3 - 1, upVoted: false });
             }
         } else {
             this.setState({ downs: tmp2 - 1 });
-            vetovoteImage(this.props.item.id).then((data) => {
-                console.log(data)
-            })
+            vetovoteImage(this.props.item.id).catch(err => err)
         }
     }
 
@@ -86,7 +78,6 @@ export default class CardImage extends React.PureComponent {
     }
 
     render() {
-        console.log(this.props.image)
         return (
             <Card transparent>
                 <CardItem style={styles.card}>

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Container, Text } from 'native-base';
 import { StyleSheet, Dimensions, FlatList, ActivityIndicator } from 'react-native'
 import CardImage from '../../components/Card'
-import {getUserPosts} from '../../api/imgur'
+import { getUserPosts } from '../../api/imgur'
 
 
 class UserPost extends Component {
@@ -18,7 +18,7 @@ class UserPost extends Component {
         getUserPosts().then((data) => {
             this.items = data;
             this.setState({ isReady: true });
-        })
+        }).catch((err) => err)
     }
 
     render() {
@@ -33,16 +33,11 @@ class UserPost extends Component {
                         windowSize={10}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item }) => {
-                            try {
-                                return <CardImage
-                                    image={{id: item.id, height: item.height, width: item.width, type: item.type}}
-                                    item={item}
-                                    navigation={this.props.navigation}
-                                />
-                            } catch (e) {
-                                console.log(e);
-                                console.log(`Error at ${index}`);
-                            }
+                            return <CardImage
+                                image={{ id: item.id, height: item.height, width: item.width, type: item.type }}
+                                item={item}
+                                navigation={this.props.navigation}
+                            />
                         }}
                     />
                     :
@@ -67,6 +62,6 @@ const styles = StyleSheet.create({
     appLoading: {
         flex: 1,
         justifyContent: 'center'
-      },
+    },
 });
 export default UserPost

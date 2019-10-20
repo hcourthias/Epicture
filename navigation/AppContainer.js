@@ -31,7 +31,6 @@ const HomeTabs = createBottomTabNavigator({
     Feed: {
         screen: Home,
         navigationOptions: {
-            title: "tutu",
             tabBarLabel: 'Home',
             tabBarIcon: ({ focused, horizontal, tintColor }) => (
                 <Icon name="home" size={30} style={{ color: tintColor }} />

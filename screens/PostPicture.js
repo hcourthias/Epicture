@@ -61,7 +61,7 @@ class PostPicture extends Component {
         uploadImage(formData).then((data) => {
             this.setState({isUploading: false})
             this.props.navigation.navigate('Profile')
-        })
+        }).catch((err) => err)
     }
     render() {
         return (

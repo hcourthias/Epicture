@@ -21,15 +21,11 @@ class Post extends Component {
         getImageComments(navigation.getParam('data', {}).id)
             .then((result) => {
                 this.setState({ comments: result });
-                console.log("WOUALLEXZ");
-
-                console.log(this.state.comments)
             })
             .catch((e => e));
     }
 
     render() {
-        console.log("HEHEHEH");
         return (
             <Container style={styles.background}>
                 <Header style={styles.header}>
@@ -52,11 +48,7 @@ class Post extends Component {
                             windowSize={10}
                             keyExtractor={(item, index) => index.toString()}
                             renderItem={({ item }) => {
-                                try {
                                     return <Comment item={item} />
-                                } catch (e) {
-                                    console.log(e);
-                                }
                             }}
                         />
                     </View>

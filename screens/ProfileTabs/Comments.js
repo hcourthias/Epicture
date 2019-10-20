@@ -19,7 +19,7 @@ class Comments extends Component {
         getUserComments().then((data) => {
             this.items = data;
             this.setState({ isReady: true });
-        })
+        }).catch((err) => err)
     }
 
     render() {
@@ -34,11 +34,7 @@ class Comments extends Component {
                         windowSize={10}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item }) => {
-                            try {
-                                return <Comment item={item} />
-                            } catch (e) {
-                                console.log(e);
-                            }
+                            return <Comment item={item} />
                         }}
                     />
                     :

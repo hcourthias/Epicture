@@ -19,74 +19,76 @@ class Search extends Component {
     backHandler = null
 
 
+    emptySearchText = () => {
+        this.setState({ searchText: '', items: null })
+        return true
+    }
     componentWillMount() {
         const { navigation } = this.props;
-        //this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.handleCancelation);
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.emptySearchText);
         getTags().then((data) => {
             this.setState({ tags: data.tags })
-        })
+        }).catch((err) => err)
     }
 
     componentWillUnmount() {
         const { navigation } = this.props;
         this.setState({ image: navigation.getParam('image', {}) })
-        //this.backHandler.remove()
+        this.backHandler.remove()
     }
 
 
     handleSearch = () => {
         if (this.state.searchText.length == 0) {
-            this.setState({items: null})
+            this.setState({ items: null })
             return
         }
-        this.setState({isFetching: true})
+        this.setState({ isFetching: true })
         searchPost(this.state.searchText).then((data) => {
-            this.setState({items: data})
-            this.setState({isFetching: false})
-        })
+            this.setState({ items: data })
+            this.setState({ isFetching: false })
+        }).catch((err) => err)
     }
 
     onPressButton = (item) => {
-        this.setState({isFetching: true})
+        this.setState({ isFetching: true })
         searchByTag(item.name).then((data) => {
-            this.setState({items: data.items})
-            this.setState({isFetching: false})
+            this.setState({ items: data.items })
+            this.setState({ isFetching: false })
 
-        })
-        this.setState({searchText: 't/'+ item.name})
+        }).catch((err) => err)
+        this.setState({ searchText: 't/' + item.name })
 
     }
 
     render() {
         if (!this.state.isFetching)
-        return (
-            <Container style={styles.background}>
-                <Header searchBar autoCorrect={false} style={styles.header}>
-                    <Item style={styles.header}>
-                        <Icon style={styles.iconSearch} name="search" />
-                        <Input style={styles.searchInput}
-                            placeholder="Search"
-                            placeholderTextColor="#DCDCDC"
-                            onChangeText={(text) => {
-                                this.setState({ searchText: text })
-                            }}
-                            returnKeyType='search'
-                            autoFocus={true}
-                            value={this.state.searchText}
-                            onSubmitEditing={this.handleSearch}
-                            clearButtonMode="while-editing"
-                        />
-                    </Item>
-                </Header>
-                {this.state.items !== null ?
-                    <FlatList style={styles.cardContent}
-                        data={this.state.items}
-                        initialNumToRender={5}
-                        maxToRenderPerBatch={5}
-                        windowSize={15}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={({ item }) => {
-                            try {
+            return (
+                <Container style={styles.background}>
+                    <Header searchBar autoCorrect={false} style={styles.header}>
+                        <Item style={styles.header}>
+                            <Icon style={styles.iconSearch} name="search" />
+                            <Input style={styles.searchInput}
+                                placeholder="Search"
+                                placeholderTextColor="#DCDCDC"
+                                onChangeText={(text) => {
+                                    this.setState({ searchText: text })
+                                }}
+                                returnKeyType='search'
+                                value={this.state.searchText}
+                                onSubmitEditing={this.handleSearch}
+                                clearButtonMode="while-editing"
+                            />
+                        </Item>
+                    </Header>
+                    {this.state.items !== null ?
+                        <FlatList style={styles.cardContent}
+                            data={this.state.items}
+                            initialNumToRender={5}
+                            maxToRenderPerBatch={5}
+                            windowSize={15}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={({ item }) => {
                                 if (!item.images)
                                     return;
                                 return <CardImage
@@ -94,32 +96,28 @@ class Search extends Component {
                                     item={item}
                                     navigation={this.props.navigation}
                                 />
-                            } catch (e) {
-                                console.log(e);
-                                console.log(`Error at ${index}`);
-                            }
-                        }}
-                    />:
-                    <FlatList style={styles.cardContent}
-                        data={this.state.tags}
-                        extraData={this.state}
-                        initialNumToRender={5}
-                        maxToRenderPerBatch={10}
-                        windowSize={10}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={({ item }) => {
-                            return (
-                                <TouchableOpacity onPress={() => this.onPressButton(item)}>
-                                    <FilterCard
-                                        tag={item}
-                                    />
-                                </TouchableOpacity>
-                            )
-                        }}
-                    />}
-            </Container >
-        )
-        return (            <Container style={styles.background}>
+                            }}
+                        /> :
+                        <FlatList style={styles.cardContent}
+                            data={this.state.tags}
+                            extraData={this.state}
+                            initialNumToRender={5}
+                            maxToRenderPerBatch={10}
+                            windowSize={10}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={({ item }) => {
+                                return (
+                                    <TouchableOpacity onPress={() => this.onPressButton(item)}>
+                                        <FilterCard
+                                            tag={item}
+                                        />
+                                    </TouchableOpacity>
+                                )
+                            }}
+                        />}
+                </Container >
+            )
+        return (<Container style={styles.background}>
             <Header searchBar autoCorrect={false} style={styles.header}>
                 <Item style={styles.header}>
                     <Icon style={styles.iconSearch} name="search" />
@@ -165,6 +163,6 @@ const styles = StyleSheet.create({
     appLoading: {
         flex: 1,
         justifyContent: 'center'
-      }
+    }
 });
 export default Search

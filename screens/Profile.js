@@ -23,7 +23,7 @@ class Profile extends Component {
         getUserProfile().then((result) => {
             this.setState({ userInfo: result })
             this.setState({ date: new Date(result.created * 1000) })
-        })
+        }).catch((err) => err)
     }
 
     render() {

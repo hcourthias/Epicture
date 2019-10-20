@@ -25,7 +25,9 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.warzapp.epicture"
+
     },
     "android": {
       "package": "com.warzapp.epicture",

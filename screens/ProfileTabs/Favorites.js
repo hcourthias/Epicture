@@ -19,7 +19,7 @@ class Favorites extends Component {
         getUserFavorites().then((data) => {
             this.items = data;
             this.setState({ isReady: true });
-        })
+        }).catch((err) => err)
     }
 
     render() {
@@ -33,16 +33,11 @@ class Favorites extends Component {
                         windowSize={10}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item }) => {
-                            try {
-                                console.log(item);
-                                return <CardImage
-                                    image={{ id: item.cover, height: item.height, width: item.width, type: item.type }}
-                                    item={item}
-                                    navigation={this.props.navigation}
-                                />
-                            } catch (e) {
-                                console.log(e);
-                            }
+                            return <CardImage
+                                image={{ id: item.cover, height: item.height, width: item.width, type: item.type }}
+                                item={item}
+                                navigation={this.props.navigation}
+                            />
                         }}
                     />
                     :
