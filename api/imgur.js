@@ -42,6 +42,14 @@ export function loginImgur() {
 }
 
 /**
+ * logoutImgur
+ * @description Logout
+ */
+export function logoutImgur() {
+    return AsyncStorage.removeItem('userAuth');
+}
+
+/**
  * refreshAuthToken
  * @description Refresh User Auth Token
  * @param {Object} userAuth
