@@ -1,7 +1,8 @@
 import React from 'react'
-import { createAppContainer, createSwitchNavigator } from 'react-navigation'
+import { createAppContainer } from 'react-navigation'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { Icon, Header, Text } from 'native-base'
+import {createStackNavigator} from 'react-navigation-stack'
 import createAnimatedSwitchNavigator from 'react-navigation-animated-switch';
 import { Transition } from 'react-native-reanimated';
 
@@ -12,12 +13,23 @@ import Profile from '../screens/Profile'
 import Search from '../screens/Search'
 import Picture from '../screens/Picture'
 import PostPicture from '../screens/PostPicture'
+import Post from '../screens/Post'
 
-
+const PostNavigator = createStackNavigator({
+    Home: { screen: Home },
+    Post: { screen: Post },
+  },
+  {
+    headerMode: 'none',
+    mode: 'modal',
+    defaultNavigationOptions: {
+      gesturesEnabled: false,
+    },  
+})
 
 const HomeTabs = createBottomTabNavigator({
     Feed: {
-        screen: Home,
+        screen: PostNavigator,
         navigationOptions: {
             title: "tutu",
             tabBarLabel: 'Home',
@@ -67,6 +79,7 @@ const HomeTabs = createBottomTabNavigator({
         }
     }
 )
+
 
 const SwitchNavigator = createAnimatedSwitchNavigator(
     {

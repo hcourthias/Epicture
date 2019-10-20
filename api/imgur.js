@@ -138,8 +138,8 @@ function generateUserRequest(method = 'GET') {
  * getGalleryTop
  * @description Get Gallery Top
  */
-export function getGalleryTop() {
-    return fetch(`${BASE_URL}/3/gallery/top`, generateClientRequest())
+export function getGalleryTop(page) {
+    return fetch(`${BASE_URL}/3/gallery/top/${page}`, generateClientRequest())
     .then((response) => {
         return response.json();
     })
@@ -218,6 +218,18 @@ export function getUserPosts() {
  */
 export function getUserFavorites() {
     return fetch(`${BASE_URL}/3/account/${username}/favorites`, generateUserRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
+    });
+}
+
+export function getUserComments() {
+    return fetch(`${BASE_URL}/3/account/${username}/comments`, generateUserRequest())
     .then((response) => {
         return response.json();
     })

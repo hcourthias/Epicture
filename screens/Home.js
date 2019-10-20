@@ -10,15 +10,46 @@ class Home extends Component {
     state = {
         isReady: false,
         isFetching: false,
+        isRefreshing: false,
         items: null,
+        page: 0,
+
+    };
+
+    loadPost = () => {
+        getGalleryTop(this.state.page).then((data) => {
+            this.setState(prevState => ({
+                items: this.state.page === 0 ? data : [...prevState.items, ...data],
+                isRefreshing: false,
+            }));
+            this.setState({ isReady: true });
+            console.log(this.state.items.length);
+        }).catch(err => {
+            console.error(err);
+        });
+    }
+
+
+    handleRefresh = () => {
+        this.setState({
+            isRefreshing: true,
+        }, () => {
+            this.loadPost();
+        });
+    };
+
+    handleLoadMore = () => {
+        this.setState({
+            page: this.state.page + 1
+        }, () => {
+            this.loadPost();
+        });
     };
 
 
     componentWillMount() {
-        getGalleryTop().then((data) => {
-            this.state.items = data;
-            this.setState({ isReady: true });
-        })
+        this.loadPost()
+
 
     }
 
@@ -32,6 +63,10 @@ class Home extends Component {
                         initialNumToRender={5}
                         maxToRenderPerBatch={5}
                         windowSize={15}
+                        refreshing={this.state.isRefreshing}
+                        onRefresh={this.handleRefresh}
+                        onEndReached={this.handleLoadMore}
+                        onEndThreshold={0}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item, index }) => {
                             try {
@@ -40,6 +75,7 @@ class Home extends Component {
                                 return <CardImage
                                     image={item.images[0]}
                                     item={item}
+                                    navigation={this.props.navigation}
                                 />
                             } catch (e) {
                                 console.log(e);

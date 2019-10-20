@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Container, Text, Button, Thumbnail, Header, Item, Icon, Input } from 'native-base';
 import { StyleSheet, Dimensions, Image, StatusBar, FlatList, ActivityIndicator, TouchableOpacity, BackHandler } from 'react-native'
-import Post from './ProfileTabs/Post'
+import Post from './ProfileTabs/UserPost'
 import FilterCard from '../components/FilterCard'
 import CardImage from '../components/Card'
 

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Container, Text, Button, Thumbnail, Header, Body, Tab, Tabs, Icon } from 'native-base';
 import { StyleSheet, Dimensions, TouchableOpacity, StatusBar, FlatList, ImageBackground } from 'react-native'
-import Post from './ProfileTabs/Post'
+import UserPost from './ProfileTabs/UserPost'
 import Favorites from './ProfileTabs/Favorites.js'
 import Following from './ProfileTabs/Following.js'
 import Comments from './ProfileTabs/Comments.js'
@@ -12,15 +12,18 @@ class Profile extends Component {
 
     state = {
         isSignIn: false,
-        userInfo: {}
+        userInfo: {},
+        date: new Date()
     };
+
 
     componentWillMount() {
         if (isSignedIn()) {
             this.setState({ isSignIn: true })
         }
         getUserProfile().then((result) => {
-            this.setState({ userInfo: result })
+            this.setState({ userInfo: result})
+            this.setState({ date: new Date(this.userInfo.created)})
         })
 
     }
@@ -48,7 +51,7 @@ class Profile extends Component {
                             <Thumbnail source={{ uri: this.state.userInfo.avatar }} />
                             <Text style={styles.username}>{this.state.userInfo.username}</Text>
                             <Text style={styles.info}>{this.state.userInfo.reputation_name} • {this.state.userInfo.reputation} Points</Text>
-                            <Text style={styles.date}>Created Oct 13, 2019</Text>
+                            <Text style={styles.date}>Created on {this.state.date.getMonth() + 1}/{this.state.date.getFullYear()}</Text>
 
                         </Body>
                     </Header>
@@ -56,7 +59,7 @@ class Profile extends Component {
                 <Tabs tabStyle>
                     <Tab activeTabStyle={{ backgroundColor: '#11181F' }}
                         tabStyle={{ backgroundColor: '#11181F' }}
-                        heading="Posts"><Post /></Tab>
+                        heading="Posts"><UserPost /></Tab>
                     <Tab activeTabStyle={{ backgroundColor: '#11181F' }}
                         tabStyle={{ backgroundColor: '#11181F' }}
                         heading="Favorites"><Favorites /></Tab>

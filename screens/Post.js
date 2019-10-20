@@ -3,7 +3,7 @@ import { Container, Text, Button, Header, Left, Right, Icon, Input, Item, Conten
 import { StyleSheet, Dimensions, AsyncStorage, ActivityIndicator, Image, StatusBar, Alert, BackHandler } from 'react-native'
 import { loginImgur, uploadImage } from '../api/imgur'
 
-class PostPicture extends Component {
+class Post extends Component {
 
     state = {
         image: {},
@@ -25,18 +25,7 @@ class PostPicture extends Component {
     }
 
     handleCancelation = () => {
-        Alert.alert(
-            'Cancel upload',
-            'Do you really want to cancel the current upload ?',
-            [
-                {
-                    text: 'Cancel',
-                    style: 'cancel',
-                },
-                { text: 'OK', onPress: () => this.props.navigation.navigate('Picture') },
-            ],
-            { cancelable: false },
-        );
+        this.props.navigation.navigate('Post')
         return true
     }
 
@@ -52,7 +41,7 @@ class PostPicture extends Component {
 
     uploadImage = () => {
         let formData = new FormData();
-        formData.append("image", this.state.image.base64); 
+        formData.append("image", this.state.image.base64);
         formData.append("type", "base64");
         formData.append("title", this.state.title)
         formData.append("description", this.state.desc)
@@ -181,4 +170,4 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
 });
-export default PostPicture
+export default Post

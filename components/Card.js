@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, Button, Thumbnail, Card, CardItem, Left, Right, Body, Icon } from 'native-base';
-import { StyleSheet, Dimensions, Image, View, TouchableHighlight } from 'react-native'
+import { StyleSheet, Dimensions, Image, View, TouchableOpacity } from 'react-native'
 import { downvoteImage, upvoteImage, vetovoteImage, favImage, getUserAvatar } from '../api/imgur'
 import { Video } from 'expo-av';
 
@@ -17,6 +17,11 @@ export default class CardImage extends React.PureComponent {
         isLooping: false,
         showIcon: true,
     };
+
+    handleCancelation = () => {
+        console.log("tuut")
+        this.props.navigation.navigate('Post', data: this.props.item)
+    }
 
     isUpVoted() {
         tmp = !this.state.upVoted
@@ -79,7 +84,10 @@ export default class CardImage extends React.PureComponent {
                     </Left>
                 </CardItem>
                 <CardItem cardBody style={{ aspectRatio: this.props.image.width / this.props.image.height, flex: 1 }}>
-                    <Image source={{ uri: `https://i.imgur.com/${this.props.image.id}.gif` }} style={{ aspectRatio: this.props.image.width / this.props.image.height, flex: 1 }} />
+                    <TouchableOpacity onPress={() => this.handleCancelation()}>
+                    <Image source={{ uri: `https://i.imgur.com/${this.props.image.id}.gif` }}
+                        style={{ aspectRatio: this.props.image.width / this.props.image.height, flex: 1 }} />
+                    </TouchableOpacity>
                 </CardItem>
                 <CardItem style={styles.card}>
                     <Left>

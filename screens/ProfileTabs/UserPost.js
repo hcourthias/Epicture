@@ -5,7 +5,7 @@ import CardImage from '../../components/Card'
 import {getUserPosts} from '../../api/imgur'
 
 
-class Post extends Component {
+class UserPost extends Component {
 
     state = {
         isReady: false,
@@ -69,4 +69,4 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
       },
 });
-export default Post
+export default UserPost
