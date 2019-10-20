@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, Button, Thumbnail, Card, CardItem, Left, Right, Body, Icon } from 'native-base';
 import { StyleSheet, Dimensions, Image, View, TouchableOpacity } from 'react-native'
-import { downvoteImage, upvoteImage, vetovoteImage, favImage, getUserAvatar } from '../api/imgur'
+import { downvoteImage, upvoteImage, vetovoteImage, favImage, getUserAvatar, favAlbum } from '../api/imgur'
 import { Video } from 'expo-av';
 
 export default class CardFullPost extends React.PureComponent {
@@ -18,12 +18,12 @@ export default class CardFullPost extends React.PureComponent {
         showIcon: true,
     };
 
-    handlePlayAndPause = () => {  
+    handlePlayAndPause = () => {
         this.setState((prevState) => ({
-           shouldPlay: !prevState.shouldPlay,
-           isLooping: !prevState.isLooping
+            shouldPlay: !prevState.shouldPlay,
+            isLooping: !prevState.isLooping
         }));
-      }
+    }
     isUpVoted() {
         tmp = !this.state.upVoted
         tmp2 = this.state.ups
@@ -68,11 +68,21 @@ export default class CardFullPost extends React.PureComponent {
     }
 
     isFav() {
-        tmp = !this.state.fav
-
-        this.setState({ fav: tmp });
-        favImage(this.props.item.id).then((data) => {
-        })
+        if (this.props.item.is_album) {
+            favAlbum(this.props.item.id).then((data) => {
+                if (data === "unfavorited")
+                    this.setState({ fav: false });
+                else
+                    this.setState({ fav: true });
+            }).catch(e => e);
+        } else {
+            favImage(this.props.item.id).then((data) => {
+                if (data === "unfavorited")
+                    this.setState({ fav: false });
+                else
+                    this.setState({ fav: true });
+            }).catch(e => e);
+        }
     }
 
     render() {
@@ -101,12 +111,12 @@ export default class CardFullPost extends React.PureComponent {
                                 isLooping={this.state.isLooping}
                                 style={{ aspectRatio: this.props.image.width / this.props.image.height, flex: 1 }}
                             />
-                             :
+                            :
                             <Image source={{ uri: `https://i.imgur.com/${this.props.image.id}.gif` }}
                                 style={{ aspectRatio: this.props.image.width / this.props.image.height, flex: 1 }} />}
-                            {!this.state.shouldPlay && <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center' }}>
-                                <Icon style={{ fontSize: 50, color: 'white' }} name='play' />
-                            </View>}
+                        {!this.state.shouldPlay && <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center' }}>
+                            <Icon style={{ fontSize: 50, color: 'white' }} name='play' />
+                        </View>}
                     </TouchableOpacity>
                 </CardItem>
                 <CardItem style={styles.card}>

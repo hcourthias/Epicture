@@ -35,7 +35,7 @@ class UserPost extends Component {
                         renderItem={({ item }) => {
                             try {
                                 return <CardImage
-                                    image={{id: item.id, height: item.height, width: item.width}}
+                                    image={{id: item.id, height: item.height, width: item.width, type: item.type}}
                                     item={item}
                                     navigation={this.props.navigation}
                                 />

@@ -36,7 +36,7 @@ class Favorites extends Component {
                             try {
                                 console.log(item);
                                 return <CardImage
-                                    image={{ id: item.cover, height: item.height, width: item.width }}
+                                    image={{ id: item.cover, height: item.height, width: item.width, type: item.type }}
                                     item={item}
                                     navigation={this.props.navigation}
                                 />
