@@ -95,14 +95,8 @@ export function loginInit() {
             user_token = userAuth.user_token;
             refresh_token = userAuth.refresh_token;
             username = userAuth.username;
-            return refreshAuthToken(userAuth);
-        })
-        .then((result) => {
             resolve();
-        })
-        .catch((error) => {
-            reject(error);
-        })
+        });
     });
 }
 
