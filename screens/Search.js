@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container, Text, Button, Thumbnail, Header, Item, Icon, Input } from 'native-base';
-import { StyleSheet, Dimensions, Image, StatusBar, FlatList, ActivityIndicator, TouchableOpacity, } from 'react-native'
+import { StyleSheet, Dimensions, Image, StatusBar, FlatList, ActivityIndicator, TouchableOpacity, BackHandler } from 'react-native'
 import Post from './ProfileTabs/Post'
 import FilterCard from '../components/FilterCard'
 import CardImage from '../components/Card'
@@ -21,6 +21,7 @@ class Search extends Component {
 
     componentWillMount() {
         const { navigation } = this.props;
+        //this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.handleCancelation);
         getTags().then((data) => {
             this.setState({ tags: data.tags })
             console.log(this.state.tags[50])
@@ -28,8 +29,9 @@ class Search extends Component {
     }
 
     componentWillUnmount() {
+        const { navigation } = this.props;
         this.setState({ image: navigation.getParam('image', {}) })
-        this.backHandler.remove()
+        //this.backHandler.remove()
     }
 
 

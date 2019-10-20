@@ -373,3 +373,14 @@ export function uploadImage(formData) {
     });
 }
 
+export function getUserAvatar(username) {
+    return fetch(`${BASE_URL}/3/account/${username}`, generateUserRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data.avatar);
+        return Promise.reject(result.data);
+    });
+}

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Container, Text } from 'native-base';
 import { StyleSheet, Dimensions, FlatList, ActivityIndicator } from 'react-native'
 import CardImage from '../../components/Card'
-import {getUserFavorites} from '../../api/imgur'
+import { getUserFavorites } from '../../api/imgur'
 
 
 class Favorites extends Component {
@@ -38,7 +38,7 @@ class Favorites extends Component {
                         renderItem={({ item }) => {
                             try {
                                 return <CardImage
-                                    image={item.images[0]}
+                                    image={{ id: item.id, height: item.height, width: item.width }}
                                     item={item}
                                 />
                             } catch (e) {
@@ -68,6 +68,6 @@ const styles = StyleSheet.create({
     appLoading: {
         flex: 1,
         justifyContent: 'center'
-      },
+    },
 });
 export default Favorites

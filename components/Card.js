@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, Button, Thumbnail, Card, CardItem, Left, Right, Body, Icon } from 'native-base';
 import { StyleSheet, Dimensions, Image, View, TouchableHighlight } from 'react-native'
-import { downvoteImage, upvoteImage, vetovoteImage, favImage } from '../api/imgur'
+import { downvoteImage, upvoteImage, vetovoteImage, favImage, getUserAvatar } from '../api/imgur'
 import { Video } from 'expo-av';
 
 export default class CardImage extends React.PureComponent {
@@ -10,7 +10,7 @@ export default class CardImage extends React.PureComponent {
         result: null,
         upVoted: false,
         downVoted: false,
-        fav: false,
+        fav: this.props.item.favorite ? true : false,
         ups: this.props.item.ups,
         downs: this.props.item.downs,
         shouldPlay: false,
@@ -50,10 +50,11 @@ export default class CardImage extends React.PureComponent {
             if (this.state.upVoted) {
                 this.setState({ ups: tmp3 - 1, upVoted: false });
             }
-        } else
+        } else {
             this.setState({ downs: tmp2 - 1 });
-        vetovoteImage(this.props.item.id).then((data) => {
-        })
+            vetovoteImage(this.props.item.id).then((data) => {
+            })
+        }
     }
 
     isFav() {
@@ -64,20 +65,13 @@ export default class CardImage extends React.PureComponent {
         })
     }
 
-    handlePlayAndPause = () => {
-        this.setState((prevState) => ({
-            shouldPlay: !prevState.shouldPlay,
-            isLooping: !prevState.isLooping,
-            showIcon: !prevState.showIcon
-        }));
-    }
-
     render() {
+    //console.log(this.props.item.favorite)
         return (
             <Card transparent>
                 <CardItem style={styles.card}>
                     <Left>
-                        <Thumbnail source={{ uri: 'https://image.noelshack.com/fichiers/2019/41/7/1570993072-70585617-3097304210311586-7609197454411431936-n-1.jpg' }} />
+                        <Thumbnail source={{ uri: `https://imgur.com/user/${this.props.item.account_url}/avatar?maxwidth=290` }} />
                         <Body>
                             <Text style={styles.title}>{this.props.item.title}</Text>
                             <Text style={styles.username}>{this.props.item.account_url}</Text>

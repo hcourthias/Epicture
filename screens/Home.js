@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Container, Text } from 'native-base';
 import { StyleSheet, Dimensions, FlatList, ActivityIndicator } from 'react-native'
 import CardImage from '../components/Card'
-import {getGalleryTop} from '../api/imgur'
+import { getGalleryTop, getUserAvatar } from '../api/imgur'
 
 
 class Home extends Component {
@@ -33,7 +33,7 @@ class Home extends Component {
                         maxToRenderPerBatch={5}
                         windowSize={15}
                         keyExtractor={(item, index) => index.toString()}
-                        renderItem={({ item }) => {
+                        renderItem={({ item, index }) => {
                             try {
                                 if (!item.images)
                                     return;
@@ -68,6 +68,6 @@ const styles = StyleSheet.create({
     appLoading: {
         flex: 1,
         justifyContent: 'center'
-      }
+    }
 });
 export default Home
