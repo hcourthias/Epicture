@@ -20,7 +20,7 @@ export default class CardImage extends React.PureComponent {
 
     handleCancelation = () => {
         console.log("tuut")
-        this.props.navigation.navigate('Post', data: this.props.item)
+        this.props.navigation.navigate('Post', {data: this.props.item})
     }
 
     isUpVoted() {
