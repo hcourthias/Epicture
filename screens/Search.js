@@ -16,16 +16,8 @@ class Search extends Component {
         hintText: 'Search'
     }
 
-    backHandler = null
-
-
-    emptySearchText = () => {
-        this.setState({ searchText: '', items: null })
-        return true
-    }
     componentWillMount() {
         const { navigation } = this.props;
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.emptySearchText);
         getTags().then((data) => {
             this.setState({ tags: data.tags })
         }).catch((err) => err)
@@ -34,7 +26,6 @@ class Search extends Component {
     componentWillUnmount() {
         const { navigation } = this.props;
         this.setState({ image: navigation.getParam('image', {}) })
-        this.backHandler.remove()
     }
 
 
