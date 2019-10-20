@@ -14,7 +14,6 @@ describe("getGalleryHot", () => {
             return response.json();
         })
         .then((result) => {
-            console.log(result);
             done();
         });
     });

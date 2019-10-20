@@ -4,26 +4,26 @@ import { StyleSheet, Dimensions, Image, View, TouchableOpacity } from 'react-nat
 import { downvoteImage, upvoteImage, vetovoteImage, favImage, getUserAvatar, favAlbum } from '../api/imgur'
 import { Video } from 'expo-av';
 
-export default class CardImage extends React.PureComponent {
+export default class CardFullPost extends React.PureComponent {
 
     state = {
         result: null,
         upVoted: this.props.item.vote === "up" ? true : false,
         downVoted: this.props.item.vote === "down" ? true : false,
         fav: this.props.item.favorite,
-        ups: this.props.item.ups ?this.props.item.ups : 0 ,
-        downs: this.props.item.downs ?this.props.item.downs : 0,
-        shouldPlay: false,
-        isLooping: false,
+        ups: this.props.item.ups,
+        downs: this.props.item.downs,
+        shouldPlay: true,
+        isLooping: true,
         showIcon: true,
     };
 
-    showImage = () => {
-        if (!this.props.item.images)
-            return;
-        this.props.navigation.navigate('Post', {data: this.props.item})
+    handlePlayAndPause = () => {
+        this.setState((prevState) => ({
+            shouldPlay: !prevState.shouldPlay,
+            isLooping: !prevState.isLooping
+        }));
     }
-
     isUpVoted() {
         tmp = !this.state.upVoted
         tmp2 = this.state.ups
@@ -90,11 +90,22 @@ export default class CardImage extends React.PureComponent {
                     </Left>
                 </CardItem>
                 <CardItem cardBody style={{ aspectRatio: this.props.image.width / this.props.image.height, flex: 1 }}>
-                    <TouchableOpacity onPress={() => this.showImage()
-                    }>
-                        <Image source={{ uri: `https://i.imgur.com/${this.props.image.id}.gif` }}
-                            style={{ aspectRatio: this.props.image.width / this.props.image.height, flex: 1 }} />
-                        {this.props.image.type.includes('video') && <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity onPress={() => this.handlePlayAndPause()}>
+                        {this.props.image.type.includes('video') ?
+                            <Video
+                                source={{ uri: this.props.image.link }}
+                                rate={1.0}
+                                volume={1.0}
+                                isMuted={false}
+                                resizeMode="cover"
+                                shouldPlay={this.state.shouldPlay}
+                                isLooping={this.state.isLooping}
+                                style={{ aspectRatio: this.props.image.width / this.props.image.height, flex: 1 }}
+                            />
+                            :
+                            <Image source={{ uri: `https://i.imgur.com/${this.props.image.id}.gif` }}
+                                style={{ aspectRatio: this.props.image.width / this.props.image.height, flex: 1 }} />}
+                        {!this.state.shouldPlay && <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center' }}>
                             <Icon style={{ fontSize: 50, color: 'white' }} name='play' />
                         </View>}
                     </TouchableOpacity>

@@ -1,10 +1,19 @@
 import React, { Component } from "react";
 import { Container, Text, Button, Thumbnail } from 'native-base';
 import { StyleSheet, Dimensions, AsyncStorage } from 'react-native'
-import { loginImgur } from '../api/imgur'
+import { loginImgur, loginInit } from '../api/imgur'
 
 
 class Login extends Component {
+
+    componentWillMount() {
+        loginInit()
+        .then(() => {
+            this.props.navigation.navigate('Home');
+        })
+        .catch(e => e)
+    }
+
     render() {
         return (
 
@@ -13,7 +22,7 @@ class Login extends Component {
                     <Text style={styles.logo}>epicture</Text>
                     <Container style={styles.bottom}>
                         <Button style={styles.loginButton}
-                            onPress={() => loginImgur().then(() => {this.props.navigation.navigate('Home')})}>
+                            onPress={() => loginImgur().then(() => { this.props.navigation.navigate('Home') })}>
                             <Text style={styles.loginButtonText}>LOGIN</Text>
                         </Button>
                         <Button transparent style={{ marginTop: height * 0.01 }}
@@ -64,13 +73,11 @@ const styles = StyleSheet.create({
         color: '#FFF',
         fontSize: 14,
         letterSpacing: 1.2,
-        fontFamily: 'Avenir'
     },
     guestText: {
         color: '#FFF',
         fontSize: 14,
         letterSpacing: 1.2,
-        fontFamily: 'Avenir'
     }
 });
 export default Login

@@ -10,3 +10,4 @@ npm-debug.*
 *.DS_Store
 web-build/
 web-report/
+coverage/*
