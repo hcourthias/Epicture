@@ -98,6 +98,7 @@ class Search extends Component {
                                 return <CardImage
                                     image={item.images[0]}
                                     item={item}
+                                    header={true}
                                 />
                             } catch (e) {
                                 console.log(e);

@@ -8,9 +8,9 @@ export default class CardImage extends React.PureComponent {
 
     state = {
         result: null,
-        upVoted: false,
-        downVoted: false,
-        fav: this.props.item.favorite ? true : false,
+        upVoted: this.props.item.vote === "up" ? true : false,
+        downVoted: this.props.item.vote === "down" ? true : false,
+        fav: this.props.item.favorite,
         ups: this.props.item.ups,
         downs: this.props.item.downs,
         shouldPlay: false,
@@ -20,7 +20,9 @@ export default class CardImage extends React.PureComponent {
 
     handleCancelation = () => {
         console.log("tuut")
-        this.props.navigation.navigate('Post', {data: this.props.item})
+        if (this.props.header) {
+            this.props.navigation.navigate('Post', {data: this.props.item, image: this.props.image})
+        }
     }
 
     isUpVoted() {
@@ -66,15 +68,14 @@ export default class CardImage extends React.PureComponent {
         tmp = !this.state.fav
 
         this.setState({ fav: tmp });
-        favImage(this.props.image.id).then((data) => {
+        favImage(this.props.item.image.id).then((data) => {
         })
     }
 
     render() {
-    //console.log(this.props.item.favorite)
         return (
             <Card transparent>
-                <CardItem style={styles.card}>
+                {this.props.header && <CardItem style={styles.card}>
                     <Left>
                         <Thumbnail source={{ uri: `https://imgur.com/user/${this.props.item.account_url}/avatar?maxwidth=290` }} />
                         <Body>
@@ -82,7 +83,7 @@ export default class CardImage extends React.PureComponent {
                             <Text style={styles.username}>{this.props.item.account_url}</Text>
                         </Body>
                     </Left>
-                </CardItem>
+                </CardItem>} 
                 <CardItem cardBody style={{ aspectRatio: this.props.image.width / this.props.image.height, flex: 1 }}>
                     <TouchableOpacity onPress={() => this.handleCancelation()}>
                     <Image source={{ uri: `https://i.imgur.com/${this.props.image.id}.gif` }}
