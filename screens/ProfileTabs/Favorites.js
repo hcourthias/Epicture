@@ -24,7 +24,6 @@ class Favorites extends Component {
 
     render() {
         return (
-
             <Container style={styles.background}>
                 {this.items !== null ?
                     <FlatList style={styles.cardContent}
@@ -35,8 +34,9 @@ class Favorites extends Component {
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item }) => {
                             try {
+                                console.log(item);
                                 return <CardImage
-                                    image={{ id: item.id, height: item.height, width: item.width }}
+                                    image={{ id: item.cover, height: item.height, width: item.width }}
                                     item={item}
                                     navigation={this.props.navigation}
                                 />

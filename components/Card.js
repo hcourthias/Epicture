@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, Button, Thumbnail, Card, CardItem, Left, Right, Body, Icon } from 'native-base';
 import { StyleSheet, Dimensions, Image, View, TouchableOpacity } from 'react-native'
-import { downvoteImage, upvoteImage, vetovoteImage, favImage, getUserAvatar } from '../api/imgur'
+import { downvoteImage, upvoteImage, vetovoteImage, favImage, getUserAvatar, favAlbum } from '../api/imgur'
 import { Video } from 'expo-av';
 
 export default class CardImage extends React.PureComponent {
@@ -17,6 +17,12 @@ export default class CardImage extends React.PureComponent {
         isLooping: false,
         showIcon: true,
     };
+
+    showImage = () => {
+        if (!this.props.item.images)
+            return;
+        this.props.navigation.navigate('Post', {data: this.props.item})
+    }
 
     isUpVoted() {
         tmp = !this.state.upVoted
@@ -62,11 +68,21 @@ export default class CardImage extends React.PureComponent {
     }
 
     isFav() {
-        tmp = !this.state.fav
-
-        this.setState({ fav: tmp });
-        favImage(this.props.item.id).then((data) => {
-        })
+        if (this.props.item.is_album) {
+            favAlbum(this.props.item.id).then((data) => {
+                if (data === "unfavorited")
+                    this.setState({ fav: false });
+                else
+                    this.setState({ fav: true });
+            }).catch(e => e);
+        } else {
+            favImage(this.props.item.id).then((data) => {
+                if (data === "unfavorited")
+                    this.setState({ fav: false });
+                else
+                    this.setState({ fav: true });
+            }).catch(e => e);
+        }
     }
 
     render() {
@@ -83,7 +99,7 @@ export default class CardImage extends React.PureComponent {
                     </Left>
                 </CardItem>
                 <CardItem cardBody style={{ aspectRatio: this.props.image.width / this.props.image.height, flex: 1 }}>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Post', { data: this.props.item })
+                    <TouchableOpacity onPress={() => this.showImage()
                     }>
                         <Image source={{ uri: `https://i.imgur.com/${this.props.image.id}.gif` }}
                             style={{ aspectRatio: this.props.image.width / this.props.image.height, flex: 1 }} />
