@@ -1,10 +1,19 @@
 import React, { Component } from "react";
 import { Container, Text, Button, Thumbnail } from 'native-base';
 import { StyleSheet, Dimensions, AsyncStorage } from 'react-native'
-import { loginImgur } from '../api/imgur'
+import { loginImgur, loginInit } from '../api/imgur'
 
 
 class Login extends Component {
+
+    componentWillMount() {
+        loginInit()
+        .then(() => {
+            this.props.navigation.navigate('Home');
+        })
+        .catch(e => e)
+    }
+
     render() {
         return (
 
