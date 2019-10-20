@@ -30,7 +30,8 @@
     "babel-preset-expo": "^7.0.0",
     "jest": "^24.9.0",
     "jest-expo": "^35.0.0",
-    "node-fetch-polyfill": "^2.0.6"
+    "node-fetch-polyfill": "^2.0.6",
+    "react-test-renderer": "^16.8.6"
   },
   "private": true
 }
