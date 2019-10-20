@@ -140,6 +140,7 @@ export function getGalleryTop(page) {
         return response.json();
     })
     .then((result) => {
+        console.log(result.data[0]);
         if (result.success)
             return Promise.resolve(result.data);
         else
@@ -298,6 +299,7 @@ export function favImage(imageHash) {
         return response.json();
     })
     .then((result) => {
+        console.log(result);
         if (result.success)
             return Promise.resolve();
         return Promise.reject(result.data);
@@ -391,4 +393,16 @@ export function getUserAvatar(username) {
             return Promise.resolve(result.data.avatar);
         return Promise.reject(result.data);
     });
+}
+
+export function getImageComments(idImage) {
+    return fetch(`${BASE_URL}/3/gallery/${idImage}/comments`, generateClientRequest())
+    .then((response) => {
+        return response.json();
+    })
+    .then((result) => {
+        if (result.success)
+            return Promise.resolve(result.data);
+        return Promise.reject(result.data);
+    })
 }

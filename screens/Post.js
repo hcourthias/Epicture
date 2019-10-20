@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import { Container, Text, Button, Header, Left, Right, Icon, Input, Item, Content, Body, Thumbnail } from 'native-base';
 import { StyleSheet, Dimensions, AsyncStorage, ActivityIndicator, Image, StatusBar, Alert, BackHandler } from 'react-native'
-import { loginImgur, uploadImage } from '../api/imgur'
+import { loginImgur, uploadImage, getImageComments } from '../api/imgur'
 import CardImage from '../components/Card'
 
 class Post extends Component {
 
     state = {
         data: {},
-        images: {}
+        images: {},
+        comments: []
     }
 
     backHandler = null
@@ -17,9 +18,15 @@ class Post extends Component {
         const { navigation } = this.props;
         this.setState({ data: navigation.getParam('data', {}),
                         images: navigation.getParam('image', {}) })
+        getImageComments(navigation.getParam('data', {}).id)
+        .then((result) => {
+            this.setState({comments: result});
+        })
+        .catch((e => e));
     }
 
     render() {
+        console.log("HEHEHEH");
         console.log(this.state.data)
         return (
             <Container style={styles.background}>
