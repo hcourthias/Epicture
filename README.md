@@ -1,4 +1,4 @@
-# Epitcure
+# Epicture
 
 ## Getting Started
 
