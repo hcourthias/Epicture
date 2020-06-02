@@ -3,7 +3,7 @@
 
 
 ## Getting Started
-Epicture is a school project where we have to create a photo finder and browsing application for [imgur](https://www.google.com).
+Epicture is a school project where we have to create a photo finder and browsing application for [imgur](https://imgur.com/).
 ### Technology used
 
 Our Epitcure is written in Javascript using React-Native to work on mobile platforms. The advantages of using React-Native are that we can target both Android and iOS. Javascript is simpler, more flexible and simply better on small apps which asks for no special performance. Javascript also has many different libraries which can be used to boost development, and are very easy to install and use in a project. Furthermore, we wanted to discover Cross Platform development, as we have a background in native app development.
